@@ -16,49 +16,89 @@ module.exports = function() {
             "status": false,
             "last_updated": null,
             "timer": 60,
-            "interval": false
+            "interval": false,
+            "memory": []
         },
         "website": {
             "status": false,
             "last_updated": null,
             "timer": 60,
-            "interval": false
+            "interval": false,
+            "memory": []
         },
         "elysium_pvp": {
             "status": false,
             "last_updated": null,
-            "interval": false
+            "interval": false,
+            "memory": []
         },
         "nostalrius_pvp": {
             "status": false,
             "last_updated": null,
-            "interval": false
+            "interval": false,
+            "memory": []
         },
         "nostalrius_pve": {
             "status": false,
             "last_updated": null,
-            "interval": false
+            "interval": false,
+            "memory": []
         }
 
 
     };
 
+    this.memory = {};
+
+    this.memory.addMemory = function(name, status) {
+        var stat = self.statuses[name];
+        
+        stat.memory.push(status);
+        if (stat.memory.length > 20) stat.memory.splice(0,1);
+
+        //end Keeper.memory.addMemory
+    }
+
+    this.memory.isMemoryBad = function(name) {
+
+        var stat = self.statuses[name];
+        var foundFalse = false;
+
+        for (var i = 0; i < stat.memory.length; i++) {
+            var memPiece = stat.memory[i];
+            if (memPiece === false) { foundFalse = true; break; }
+        }
+
+        if (foundFalse) return true;
+        return false;
+
+        //end
+    }
+
     this.processes = {
     };
 
+    
+
     this.processes['logon'] = function() {
+        
 
         //LOGON 
         portscanner.checkPortStatus(3724, 'logon.elysium-project.org', function(error, status) {
+
             
+
+
             if (status === 'open') {
-                self.statuses.logon.status = true;
+                self.memory.addMemory('logon', true);
+                self.statuses.logon.status = (self.memory.isMemoryBad('logon') ? 'unstable' : true);
                 self.statuses.logon.last_updated = new Date();
                 console.log(new Date().toString() + ' - Logon ' + colors.green('UP'));
                 return;
             }
 
             //status was not open..
+            self.memory.addMemory('logon', false);
             self.statuses.logon.status = false;
             self.statuses.logon.last_updated = new Date();
             console.log(new Date().toString() + ' - Logon ' + colors.red('DOWN'));

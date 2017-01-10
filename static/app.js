@@ -63,6 +63,12 @@ function getStatusText(status) {
         '    Unknown' + 
         '</h3>';
 
+    if (status == 'unstable') return '' + 
+        '<h3 class="srvUnstable">' + 
+        '   <i class="fa fa-exclamation-circle"></i>' + 
+        '    May be unstable' + 
+        '</h3>';
+
     if (status) return '' + 
         '<h3 class="srvOnline">' + 
         '   <i class="fa fa-check-circle"></i>' + 
