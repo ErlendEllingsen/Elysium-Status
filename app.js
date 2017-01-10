@@ -15,9 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-
-
-
 var Keeper = require('./modules/keeper');
 var keeper = new Keeper();
 keeper.process();
@@ -35,33 +32,11 @@ if (process.argv[2] == 'dev') {
     is_live = false;
 }
 
-  
-var privateKey = null;
-var certificate = null;
-
 // START THE SERVER
 // =============================================================================
 http.createServer(app).listen(http_port);
 
 console.log(colors.yellow('CORE') + ' Enabled ' + colors.bold('HTTP') + ' at ' + http_port);
-
-if (is_live) {
-
-    /*
-    console.log(colors.yellow('CORE') + ' Enabled ' + colors.bold('HTTPS/SSL') + ' at ' + https_port);
-
-    //LOAD SSL
-    privateKey = fs.readFileSync( '/etc/letsencrypt/live/direct.servico.jungleflake.com/privkey.pem' );
-    certificate = fs.readFileSync( '/etc/letsencrypt/live/direct.servico.jungleflake.com/cert.pem' );
-
-    https.createServer({
-        key: privateKey,
-        cert: certificate 
-    }, app).listen(https_port);
-    */
-
-}
-
 
 /**
  * BEGIN
