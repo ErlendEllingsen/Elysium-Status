@@ -47,6 +47,7 @@ console.log(colors.yellow('CORE') + ' Enabled ' + colors.bold('HTTP') + ' at ' +
 
 if (is_live) {
 
+    /*
     console.log(colors.yellow('CORE') + ' Enabled ' + colors.bold('HTTPS/SSL') + ' at ' + https_port);
 
     //LOAD SSL
@@ -57,6 +58,7 @@ if (is_live) {
         key: privateKey,
         cert: certificate 
     }, app).listen(https_port);
+    */
 
 }
 
