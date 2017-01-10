@@ -55,3 +55,12 @@ router.get('/', function(req, res){
 router.get('/fetch', function(req, res){
     res.json(keeper.get());
 });
+
+router.get('/stats', function(req, res){
+
+    res.json({
+        statuses: keeper.statuses,
+        memory: keeper.memory
+    });
+
+});

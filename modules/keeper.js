@@ -17,7 +17,11 @@ module.exports = function () {
             "last_updated": null,
             "timer": 60,
             "interval": false,
-            "memory": []
+            "memory": [],
+             "endpoint": {
+                "ip": "logon.elysium-project.org",
+                "port": 3724
+            }
         },
         "website": {
             "status": false,
@@ -30,19 +34,31 @@ module.exports = function () {
             "status": false,
             "last_updated": null,
             "interval": false,
-            "memory": []
+            "memory": [],
+            "endpoint": {
+                "ip": "149.202.207.235",
+                "port": 8099
+            }
         },
         "nostalrius_pvp": {
             "status": false,
             "last_updated": null,
             "interval": false,
-            "memory": []
+            "memory": [],
+            "endpoint": {
+                "ip": "149.202.211.5",
+                "port": 8095
+            }
         },
         "nostalrius_pve": {
             "status": false,
             "last_updated": null,
             "interval": false,
-            "memory": []
+            "memory": [],
+            "endpoint": {
+                "ip": "164.132.233.125",
+                "port": 8097
+            }
         }
 
 
@@ -85,28 +101,7 @@ module.exports = function () {
     this.processes['logon'] = function () {
 
 
-        //LOGON 
-        portscanner.checkPortStatus(3724, 'logon.elysium-project.org', function (error, status) {
-
-
-
-
-            if (status === 'open') {
-                self.memory.addMemory('logon', true);
-                self.statuses.logon.status = (self.memory.isMemoryBad('logon') ? 'unstable' : true);
-                self.statuses.logon.last_updated = new Date();
-                console.log(new Date().toString() + ' - Logon ' + colors.green('UP'));
-                return;
-            }
-
-            //status was not open..
-            self.memory.addMemory('logon', false);
-            self.statuses.logon.status = false;
-            self.statuses.logon.last_updated = new Date();
-            console.log(new Date().toString() + ' - Logon ' + colors.red('DOWN'));
-            return;
-
-        });
+       self.processes['scan-server']('logon');
 
         //end Keeper.processes['logon']
     }
@@ -148,24 +143,40 @@ module.exports = function () {
         //end Keeper.processes['logon']
     }
 
+    this.processes['scan-server'] = function(serverName) {
+
+        var server = self.statuses[serverName];
+
+        //Scan server
+        portscanner.checkPortStatus(server.endpoint.port, server.endpoint.ip, function (error, status) {
+
+            if (status === 'open') {
+                self.memory.addMemory(serverName, true);
+                self.statuses[serverName].status = (self.memory.isMemoryBad(serverName) ? 'unstable' : true);
+                self.statuses[serverName].last_updated = new Date();
+                console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.green('UP'));
+                return;
+            }
+
+            //status was not open..
+            self.memory.addMemory(serverName, false);
+            self.statuses[serverName].status = false;
+            self.statuses[serverName].last_updated = new Date();
+            console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.red('DOWN'));
+            return;
+
+        });
+
+
+
+        //end Keeper.processes['scan-server']
+    }
+
     this.processes['servers'] = function (body) {
 
-
-        function getRealmStatus(realm) {
-            var realmRes = (body.split('<div class="realm-name">\n' +
-                realm)[1].split('<div class="progress">')[0]).toLowerCase().indexOf('online') != -1;
-            return realmRes;
-
-            //end getRealmStatus
-        }
-
-        self.statuses['elysium_pvp'].status = getRealmStatus('Elysium PvP');
-        self.statuses['nostalrius_pvp'].status = getRealmStatus('Nostalrius PvP');
-        self.statuses['nostalrius_pve'].status = getRealmStatus('Nostalrius PvE');
-
-        self.statuses['elysium_pvp'].last_updated = new Date();
-        self.statuses['nostalrius_pvp'].last_updated = new Date();
-        self.statuses['nostalrius_pve'].last_updated = new Date();
+        self.processes['scan-server']('elysium_pvp');
+        self.processes['scan-server']('nostalrius_pvp');
+        self.processes['scan-server']('nostalrius_pve');
 
         //end Keeper.processes['servers']
     }
