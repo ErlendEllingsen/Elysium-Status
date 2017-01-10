@@ -54,7 +54,7 @@ module.exports = function () {
         var stat = self.statuses[name];
 
         stat.memory.push(status);
-        if (stat.memory.length > 20) stat.memory.splice(0, 1);
+        if (stat.memory.length > 10) stat.memory.splice(0, 1);
 
         //end Keeper.memory.addMemory
     }
