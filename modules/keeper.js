@@ -51,16 +51,21 @@ module.exports = function() {
         //LOGON 
         portscanner.checkPortStatus(3724, 'logon.elysium-project.org', function(error, status) {
             
-            if (error != null || status == 'closed') {
-                self.statuses.logon.status = false;
+            if (status === 'open') {
+                self.statuses.logon.status = true;
                 self.statuses.logon.last_updated = new Date();
-                console.log(new Date().toString() + ' - Logon ' + colors.red('DOWN'));
+                console.log(new Date().toString() + ' - Logon ' + colors.green('UP'));
                 return;
             }
 
-            self.statuses.logon.status = true;
+            //status was not open..
+            self.statuses.logon.status = false;
             self.statuses.logon.last_updated = new Date();
-            console.log(new Date().toString() + ' - Logon ' + colors.green('UP'));
+            console.log(new Date().toString() + ' - Logon ' + colors.red('DOWN'));
+            return;
+        
+
+            
 
           
 
