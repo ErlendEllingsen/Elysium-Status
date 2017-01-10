@@ -58,9 +58,27 @@ router.get('/fetch', function(req, res){
 
 router.get('/stats', function(req, res){
 
-    res.json({
-        statuses: keeper.statuses,
-        memory: keeper.memory
-    });
+    var outcontent = {
+        time: new Date(),
+        servers: {}
+    };
+
+    for (var serverName in keeper.statuses) {
+        
+        var outServer = {};
+        var storedServer = keeper.statuses[serverName];
+
+        outServer.status = storedServer.status;
+        outServer.last_updated = storedServer.last_updated;
+
+        //Include memory for some servers..
+        if (storedServer.memory != undefined) outServer.memory = storedServer.memory;
+        
+
+        outcontent.servers[serverName] = outServer;
+
+    }
+
+    res.json(outcontent);
 
 });
