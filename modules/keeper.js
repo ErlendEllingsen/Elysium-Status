@@ -1,6 +1,7 @@
 const execFile = require('child_process').execFile;
 const colors = require('colors');
 const request = require('request');
+const portscanner = require('portscanner');
 
 module.exports = function() {
     var self = this;
@@ -48,20 +49,24 @@ module.exports = function() {
     this.processes['logon'] = function() {
 
         //LOGON 
-        const child = execFile('fping', ['logon.elysium-project.org'], (error, stdout, stderr) => {
+        portscanner.checkPortStatus(3724, 'logon.elysium-project.org', function(error, status) {
             
-            if (error != null) {
+            if (error != null || status == 'closed') {
                 self.statuses.logon.status = false;
                 self.statuses.logon.last_updated = new Date();
                 console.log(new Date().toString() + ' - Logon ' + colors.red('DOWN'));
                 return;
             }
-            
+
             self.statuses.logon.status = true;
             self.statuses.logon.last_updated = new Date();
             console.log(new Date().toString() + ' - Logon ' + colors.green('UP'));
 
+          
+
         });
+        
+
 
 
         //end Keeper.processes['logon']
