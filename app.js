@@ -47,7 +47,7 @@ console.log(colors.yellow('CORE') + ' Enabled ' + colors.bold('HTTP') + ' at ' +
 
 if (is_live) {
 
-    console.log.log(colors.yellow('CORE') + ' Enabled ' + colors.bold('HTTPS/SSL') + ' at ' + https_port);
+    console.log(colors.yellow('CORE') + ' Enabled ' + colors.bold('HTTPS/SSL') + ' at ' + https_port);
 
     //LOAD SSL
     privateKey = fs.readFileSync( '/etc/letsencrypt/live/direct.servico.jungleflake.com/privkey.pem' );
