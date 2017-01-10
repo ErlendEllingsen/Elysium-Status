@@ -48,7 +48,7 @@ module.exports = function() {
     this.processes['logon'] = function() {
 
         //LOGON 
-        const child = execFile('ping', ['-t 10', 'logon.elysium-project.org'], (error, stdout, stderr) => {
+        const child = execFile('fping', ['logon.elysium-project.org'], (error, stdout, stderr) => {
             
             if (error != null) {
                 self.statuses.logon.status = false;
