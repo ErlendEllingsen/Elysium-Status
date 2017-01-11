@@ -80,11 +80,13 @@ module.exports = function () {
         var stat = self.statuses[name];
         var foundFalse = false;
 
+        var x = 0;
+
         for (var i = 0; i < stat.memory.length; i++) {
             var memPiece = stat.memory[i];
             if (memPiece === false) {
-                foundFalse = true;
-                break;
+                x++;
+                if (x >= 2) foundFalse = true; //Only mark memory as bad when 2/10 memPiece are bad(false).
             }
         }
 
