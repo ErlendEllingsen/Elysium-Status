@@ -102,6 +102,7 @@ module.exports = function () {
 
 
        self.processes['scan-server']('logon');
+       self.processes['servers']();
 
         //end Keeper.processes['logon']
     }
@@ -118,16 +119,6 @@ module.exports = function () {
                 self.statuses.website.status = false;
                 self.statuses.website.last_updated = new Date();
                 console.log(new Date().toString() + ' - Website ' + colors.red('DOWN'));
-
-                //MARK REALMS AS UNKNOWN
-                self.statuses['elysium_pvp'].status = 'unknown';
-                self.statuses['nostalrius_pvp'].status = 'unknown';
-                self.statuses['nostalrius_pve'].status = 'unknown';
-
-                self.statuses['elysium_pvp'].last_updated = new Date();
-                self.statuses['nostalrius_pvp'].last_updated = new Date();
-                self.statuses['nostalrius_pve'].last_updated = new Date();
-
                 return;
             }
 
@@ -135,7 +126,7 @@ module.exports = function () {
             self.statuses.website.last_updated = new Date();
             console.log(new Date().toString() + ' - Website ' + colors.green('UP'));
 
-            self.processes['servers'](body);
+            
 
         });
 
@@ -172,7 +163,7 @@ module.exports = function () {
         //end Keeper.processes['scan-server']
     }
 
-    this.processes['servers'] = function (body) {
+    this.processes['servers'] = function () {
 
         self.processes['scan-server']('elysium_pvp');
         self.processes['scan-server']('nostalrius_pvp');
