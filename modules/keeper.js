@@ -19,7 +19,7 @@ module.exports = function () {
             "interval": false,
             "memory": [],
              "endpoint": {
-                "ip": "logon.elysium-project.org",
+                "ip": "164.132.233.125", //"logon.elysium-project.org"
                 "port": 3724
             }
         },
