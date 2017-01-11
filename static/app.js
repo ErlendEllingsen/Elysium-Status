@@ -1,6 +1,11 @@
 var ElysiumStatus = {
-    data: null,
-    timeout: null
+    serverTime: null,
+    timeout: null,
+
+    /// Notifications ///
+    isFirstFetch: true,
+    lastServerStatuses: [],
+    notificationsAllowed: false
 };
 var es = ElysiumStatus;
 
@@ -17,41 +22,104 @@ es.fetchData = function() {
 }
 
 es.newData = function(data) {
+    es.serverTime = data.time;
 
-    if (es.data == null) {
-        es.data = data;
-        es.render();
-        return;
+    //COMPARE data
+    var changedStatuses = [];
+    for(var name in data.statuses) {
+        if(data.statuses[name].status !== es.lastServerStatuses[name]) {
+            changedStatuses.push({
+                name: name,
+                status: data.statuses[name].status
+            });
+        }
+
+        es.lastServerStatuses[name] = data.statuses[name].status;
     }
 
-    es.checkData(data);
+    es.render(data);
 
-    //end es.newData
-}
-
-es.checkData = function(data) {
-
-    //COMPARE DATA 
-
-    //set data 
-    es.data = data;
-
-    es.render();
-
-
+    if(!es.isFirstFetch) {
+        es.notify(changedStatuses);
+    } else {
+        es.isFirstFetch = false;
+    }
     //end es.checkData
 }
 
-es.render = function() {
-
-
-    for (var name in es.data.statuses) {
-        $("tr[data-srv='" + name + "']").find('div.srvStatus').html(getStatusText(es.data.statuses[name].status));    
-        $("tr[data-srv='" + name + "']").find('h3.srvLastUpdated').html(getLastUpdated(es.data.statuses[name].last_updated));    
+es.render = function(data) {
+    for (var name in data.statuses) {
+        $("tr[data-srv='" + name + "']").find('div.srvStatus').html(getStatusText(data.statuses[name].status));    
+        $("tr[data-srv='" + name + "']").find('h3.srvLastUpdated').html(getLastUpdated(data.statuses[name].last_updated));    
         //end 
     }
 
     //end es.render
+}
+
+es.notify = function(changedStatuses) {
+    if(es.notificationsAllowed && changedStatuses.length) {
+        var notificationString = "";
+            changedStatuses.forEach(function(server) {
+            notificationString += notificationLine(server.name, server.status);
+        });
+
+        playSound('notification-sound');
+        new Notification('Elysium Status', {
+            body: notificationString,
+            tag: 'elysium-status',
+            vibrate: [100, 100, 100],
+            renotify: true
+        });
+    }
+}
+
+es.checkNotifications = function() {
+    if(!('Notification' in window)) {
+        console.info('This browser doesn\'t support desktop notifications');
+    } else if(Notification.permission === 'granted') {
+        es.notificationsAllowed = true;
+    } else if(Notification.permission !== 'denied') {
+        Notification.requestPermission(function(permission) {
+            if(permission === 'granted') {
+                es.notificationsAllowed = true;
+            }
+        });
+    }
+}
+
+function displayName(name) {
+    switch(name) {
+        case 'logon':
+            return 'Logon Server';
+        case 'website':
+            return 'Website';
+        case 'elysium_pvp':
+            return 'Elysium PvP';
+        case 'nostalrius_pvp':
+            return 'Nostalrius PvP';
+        case 'nostalrius_pve':
+            return 'Nostalrius PvE';
+    }
+
+    return name;
+}
+
+function notificationLine(name, status) {
+    var statusString;
+    switch(status) {
+        case 'unstable':
+            statusString = ' became unstable.';
+            break;
+        case true:
+            statusString = ' went online.';
+            break;
+        default:
+            statusString = ' went offline.';
+            break;
+    }
+
+    return displayName(name) + statusString + '\n';
 }
 
 //Other 
@@ -92,13 +160,18 @@ function getLastUpdated(lastUpdated) {
 
     // Do your operations
     
-    var endDate   = new Date(es.data.time);
+    var endDate   = new Date(es.serverTime);
     var seconds = Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
 
     return seconds + ' seconds ago';
 
 }
 
+function playSound(soundObj) {
+    document.getElementById(soundObj).play();
+}
+
 $(document).ready(function(){
+    es.checkNotifications();
     es.fetchData();
 });

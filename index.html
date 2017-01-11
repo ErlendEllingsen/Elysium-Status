@@ -245,5 +245,20 @@
 
         <!-- Load stuff at the end -->
         <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+        <!-- Notification sound -->
+        <!-- May be replaced by Notification object sounds in the future -->
+        <audio id="notification-sound" src="static/notification.mp3" type="audio/mp3" autoplay="false" preload="auto"/>
+        <script>
+        var notificationSound = document.getElementById('notification-sound');
+
+        notificationSound.pause();
+        notificationSound.loop = false;
+        notificationSound.onended = function() {
+            notificationSound.pause();
+            notificationSound.currentTime = 0;
+            console.log('ended');
+        };
+        </script>
     </body>
 </html>
