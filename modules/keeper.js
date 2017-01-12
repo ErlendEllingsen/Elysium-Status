@@ -13,6 +13,7 @@ module.exports = function () {
     this.statuses = {
 
         "logon": {
+            "name": "Login Server",
             "status": false,
             "last_updated": null,
             "timer": 60,
@@ -24,6 +25,7 @@ module.exports = function () {
             }
         },
         "website": {
+            "name": "Website",
             "status": false,
             "last_updated": null,
             "timer": 60,
@@ -31,6 +33,7 @@ module.exports = function () {
             "memory": []
         },
         "elysium_pvp": {
+            "name": "Elysium PVP",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -41,6 +44,7 @@ module.exports = function () {
             }
         },
         "nostalrius_pvp": {
+            "name": "Nostalrius PVP",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -51,6 +55,7 @@ module.exports = function () {
             }
         },
         "nostalrius_pve": {
+            "name": "Nostalrius PVE",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -222,6 +227,7 @@ module.exports = function () {
             var srv = self.statuses[server];
 
             outStatuses[server] = {
+                'name': srv.name,
                 'status': srv.status,
                 'last_updated': srv['last_updated']
             };

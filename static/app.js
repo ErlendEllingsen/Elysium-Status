@@ -1,6 +1,8 @@
 var ElysiumStatus = {
     data: null,
-    timeout: null
+    timeout: null,
+    queueData: null,
+    queueTimeout: null
 };
 var es = ElysiumStatus;
 
@@ -16,6 +18,13 @@ es.fetchData = function() {
     //end es.fetchData
 }
 
+es.fetchQueueData = function() {
+    $.get('/stats', function(data){
+        es.newQueueData(data);
+        es.queueTimeout = setTimeout(es.fetchQueueData, 60 * 1000);
+    });
+}
+
 es.newData = function(data) {
 
     if (es.data == null) {
@@ -27,6 +36,11 @@ es.newData = function(data) {
     es.checkData(data);
 
     //end es.newData
+}
+
+es.newQueueData = function(data) {
+    es.queueData = data.autoqueue;
+    es.render();
 }
 
 es.checkData = function(data) {
@@ -43,11 +57,36 @@ es.checkData = function(data) {
 }
 
 es.render = function() {
-
+    if (es.data == null || es.data.statuses == undefined) return;
 
     for (var name in es.data.statuses) {
+        var server = es.data.statuses[name];
+
+        //Server status data 
         $("tr[data-srv='" + name + "']").find('div.srvStatus').html(getStatusText(es.data.statuses[name].status));    
-        $("tr[data-srv='" + name + "']").find('h3.srvLastUpdated').html(getLastUpdated(es.data.statuses[name].last_updated));    
+        $("tr[data-srv='" + name + "']").find('h3.srvLastUpdated').html(getLastUpdated(es.data.statuses[name].last_updated));   
+
+        //Queue data? 
+        
+        if (es.queueData != null && es.queueData != {} && es.queueData.servers != undefined) {
+
+            var aqdataValid = ((Math.abs(new Date() - es.queueData.recieved_at) / 1000) <= 3 * 60); //Data must be max three minutes old.
+
+            //Find AutoQueue for server 
+            var foundSrv = null; 
+            for (var i = 0; i < es.queueData.servers.length; i++) {
+                var aqserver = es.queueData.servers[i]; //autoqueue-server
+                if (aqserver.name == server.name) { foundSrv = aqserver; break; }
+            }
+
+            if (foundSrv == null) continue; //Did not found server.
+
+            var queueText = (foundSrv.queueAvailable ? "Queue: " + foundSrv.queue : 'Queue unavailable');
+            $("tr[data-srv='" + name + "']").find('.queueText').html(queueText);
+
+            //end queueData is set
+        }
+
         //end 
     }
 
@@ -101,4 +140,5 @@ function getLastUpdated(lastUpdated) {
 
 $(document).ready(function(){
     es.fetchData();
+    es.fetchQueueData();
 });
