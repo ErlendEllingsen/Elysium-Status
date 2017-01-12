@@ -13,6 +13,7 @@ module.exports = function () {
     this.statuses = {
 
         "logon": {
+            "name": "Login Server",
             "status": false,
             "last_updated": null,
             "timer": 60,
@@ -24,6 +25,7 @@ module.exports = function () {
             }
         },
         "website": {
+            "name": "Website",
             "status": false,
             "last_updated": null,
             "timer": 60,
@@ -31,6 +33,7 @@ module.exports = function () {
             "memory": []
         },
         "elysium_pvp": {
+            "name": "Elysium PVP",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -41,6 +44,7 @@ module.exports = function () {
             }
         },
         "nostalrius_pvp": {
+            "name": "Nostalrius PVP",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -51,6 +55,7 @@ module.exports = function () {
             }
         },
         "nostalrius_pve": {
+            "name": "Nostalrius PVE",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -63,6 +68,21 @@ module.exports = function () {
 
 
     };
+
+    this.autoqueue = {};
+    this.autoqueue_set = false;
+    this.autoqueueIsValid = function() {
+        
+        if (!self.autoqueue_set) return false; 
+
+        //Compare time 
+        var diff = (Math.abs(new Date() - self.autoqueue.recieved_at) / 1000); //diff in secs 
+        
+        if (diff > 60) return false; 
+
+
+        return true; 
+    }
 
     this.memory = {};
 
@@ -80,11 +100,13 @@ module.exports = function () {
         var stat = self.statuses[name];
         var foundFalse = false;
 
+        var x = 0;
+
         for (var i = 0; i < stat.memory.length; i++) {
             var memPiece = stat.memory[i];
             if (memPiece === false) {
-                foundFalse = true;
-                break;
+                x++;
+                if (x >= 2) foundFalse = true; //Only mark memory as bad when 2/10 memPiece are bad(false).
             }
         }
 
@@ -93,6 +115,8 @@ module.exports = function () {
 
         //end
     }
+
+    
 
     this.processes = {};
 
@@ -138,24 +162,46 @@ module.exports = function () {
 
         var server = self.statuses[serverName];
 
-        //Scan server
-        portscanner.checkPortStatus(server.endpoint.port, server.endpoint.ip, function (error, status) {
+        //Scan server (scan 1) 
+        portscanner.checkPortStatus(server.endpoint.port, server.endpoint.ip, function (errorX, statusX) {
 
-            if (status === 'open') {
-                self.memory.addMemory(serverName, true);
-                self.statuses[serverName].status = (self.memory.isMemoryBad(serverName) ? 'unstable' : true);
-                self.statuses[serverName].last_updated = new Date();
-                console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.green('UP'));
-                return;
-            }
+            //Scan server, scan 2
+            setTimeout(function(){
 
-            //status was not open..
-            self.memory.addMemory(serverName, false);
-            self.statuses[serverName].status = false;
-            self.statuses[serverName].last_updated = new Date();
-            console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.red('DOWN'));
-            return;
+                portscanner.checkPortStatus(server.endpoint.port, server.endpoint.ip, function (errorY, statusY) {
 
+                    //Check both results. If either of the scans were ok, then success...
+                    if (statusX === 'open' || statusY === 'open') {
+                        self.memory.addMemory(serverName, true);
+                        self.statuses[serverName].status = (self.memory.isMemoryBad(serverName) ? 'unstable' : true);
+                        self.statuses[serverName].last_updated = new Date();
+                        console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.green('UP'));
+
+                        //SPECIAL TREATMENT - LOGON... 
+                        //if auto-queue is valid and indicates that logon is unstable, then update status.
+                        if ((serverName == "logon") && (self.autoqueueIsValid()) && (self.autoqueue.loginServerUnreliable)) {
+                            self.statuses[serverName].status = 'unstable'; 
+                            console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.cyan('UNSTABLE (AQ)'));
+                        }
+
+                        return;
+                    }
+
+                    //status was not open..
+                    self.memory.addMemory(serverName, false);
+                    self.statuses[serverName].status = false;
+                    self.statuses[serverName].last_updated = new Date();
+                    console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.red('DOWN'));
+                    return;
+
+                    //end portscan 2/2
+                });
+
+                //end timeout between portscans
+            }, 1000); //1000 milisec delay..  
+
+    
+            //end portscan 1/2
         });
 
 
@@ -195,6 +241,7 @@ module.exports = function () {
             var srv = self.statuses[server];
 
             outStatuses[server] = {
+                'name': srv.name,
                 'status': srv.status,
                 'last_updated': srv['last_updated']
             };

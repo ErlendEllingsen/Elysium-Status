@@ -1,11 +1,14 @@
 var ElysiumStatus = {
     serverTime: null,
     timeout: null,
+    data: null,
+    queueData: null,
+    queueTimeout: null,
 
     /// Notifications ///
     isFirstFetch: true,
     lastServerStatuses: [],
-    notificationsAllowed: false
+    notificationsAllowed: false    
 };
 var es = ElysiumStatus;
 
@@ -19,6 +22,13 @@ es.fetchData = function() {
     });
 
     //end es.fetchData
+}
+
+es.fetchQueueData = function() {
+    $.get('/stats', function(data){
+        es.newQueueData(data);
+        es.queueTimeout = setTimeout(es.fetchQueueData, 60 * 1000);
+    });
 }
 
 es.newData = function(data) {
@@ -44,18 +54,10 @@ es.newData = function(data) {
     } else {
         es.isFirstFetch = false;
     }
-    //end es.checkData
+    //end es.newData
 }
 
-es.render = function(data) {
-    for (var name in data.statuses) {
-        $("tr[data-srv='" + name + "']").find('div.srvStatus').html(getStatusText(data.statuses[name].status));    
-        $("tr[data-srv='" + name + "']").find('h3.srvLastUpdated').html(getLastUpdated(data.statuses[name].last_updated));    
-        //end 
-    }
 
-    //end es.render
-}
 
 es.notify = function(changedStatuses) {
     if(es.notificationsAllowed && changedStatuses.length) {
@@ -117,10 +119,60 @@ function notificationLine(name, status) {
         default:
             statusString = ' went offline.';
             break;
+     }
+     return displayName(name) + statusString + '\n';
+}
+  
+function playSound(soundObj) {
+    document.getElementById(soundObj).play();
+}
+
+es.render = function() {
+    if (es.data == null || es.data.statuses == undefined) return;
+
+    for (var name in es.data.statuses) {
+        var server = es.data.statuses[name];
+
+        //Server status data 
+        $("tr[data-srv='" + name + "']").find('div.srvStatus').html(getStatusText(es.data.statuses[name].status));    
+        $("tr[data-srv='" + name + "']").find('h3.srvLastUpdated').html(getLastUpdated(es.data.statuses[name].last_updated));   
+
+        //Queue data? 
+        
+        if (es.queueData != null && es.queueData != {} && es.queueData.servers != undefined) {
+
+            var aqdataValid = ((Math.abs(new Date() - new Date(es.queueData.recieved_at)) / 1000) <= (3 * 60)); //Data must be max three minutes old.
+
+            if (!aqdataValid) {
+                $("tr[data-srv='" + name + "']").find('.queueText').html('Queues unavailable');
+                continue; 
+            }
+
+            //Find AutoQueue for server 
+            var foundSrv = null; 
+            for (var i = 0; i < es.queueData.servers.length; i++) {
+                var aqserver = es.queueData.servers[i]; //autoqueue-server
+                if (aqserver.name == server.name) { foundSrv = aqserver; break; }
+            }
+
+            if (foundSrv == null) continue; //Did not found server.
+
+            //Check timing of data...
+            var timingOK = ((Math.abs(new Date(es.queueData.export_time) - new Date(foundSrv.last_updated)) / 1000) < (5*60));
+            if (!timingOK) foundSrv.queueAvailable = false;
+
+            var queueText = (foundSrv.queueAvailable ? "Queue: " + foundSrv.queue : 'Queue unavailable');
+            $("tr[data-srv='" + name + "']").find('.queueText').html(queueText);
+
+            //end queueData is set
+        }
+
+        //end 
     }
 
-    return displayName(name) + statusString + '\n';
+    //end es.render
 }
+  
 
 //Other 
 function getStatusText(status) {
@@ -167,11 +219,10 @@ function getLastUpdated(lastUpdated) {
 
 }
 
-function playSound(soundObj) {
-    document.getElementById(soundObj).play();
-}
+
 
 $(document).ready(function(){
     es.checkNotifications();
     es.fetchData();
+    es.fetchQueueData();
 });
