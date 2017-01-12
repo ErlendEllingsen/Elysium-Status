@@ -162,32 +162,46 @@ module.exports = function () {
 
         var server = self.statuses[serverName];
 
-        //Scan server
-        portscanner.checkPortStatus(server.endpoint.port, server.endpoint.ip, function (error, status) {
+        //Scan server (scan 1) 
+        portscanner.checkPortStatus(server.endpoint.port, server.endpoint.ip, function (errorX, statusX) {
 
-            if (status === 'open') {
-                self.memory.addMemory(serverName, true);
-                self.statuses[serverName].status = (self.memory.isMemoryBad(serverName) ? 'unstable' : true);
-                self.statuses[serverName].last_updated = new Date();
-                console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.green('UP'));
+            //Scan server, scan 2
+            setTimeout(function(){
 
-                //SPECIAL TREATMENT - LOGON... 
-                //if auto-queue is valid and indicates that logon is unstable, then update status.
-                if ((serverName == "logon") && (self.autoqueueIsValid()) && (self.autoqueue.loginServerUnreliable)) {
-                    self.statuses[serverName].status = 'unstable'; 
-                    console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.cyan('UNSTABLE (AQ)'));
-                }
+                portscanner.checkPortStatus(server.endpoint.port, server.endpoint.ip, function (errorY, statusY) {
 
-                return;
-            }
+                    //Check both results. If either of the scans were ok, then success...
+                    if (statusX === 'open' || statusY === 'open') {
+                        self.memory.addMemory(serverName, true);
+                        self.statuses[serverName].status = (self.memory.isMemoryBad(serverName) ? 'unstable' : true);
+                        self.statuses[serverName].last_updated = new Date();
+                        console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.green('UP'));
 
-            //status was not open..
-            self.memory.addMemory(serverName, false);
-            self.statuses[serverName].status = false;
-            self.statuses[serverName].last_updated = new Date();
-            console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.red('DOWN'));
-            return;
+                        //SPECIAL TREATMENT - LOGON... 
+                        //if auto-queue is valid and indicates that logon is unstable, then update status.
+                        if ((serverName == "logon") && (self.autoqueueIsValid()) && (self.autoqueue.loginServerUnreliable)) {
+                            self.statuses[serverName].status = 'unstable'; 
+                            console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.cyan('UNSTABLE (AQ)'));
+                        }
 
+                        return;
+                    }
+
+                    //status was not open..
+                    self.memory.addMemory(serverName, false);
+                    self.statuses[serverName].status = false;
+                    self.statuses[serverName].last_updated = new Date();
+                    console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.red('DOWN'));
+                    return;
+
+                    //end portscan 2/2
+                });
+
+                //end timeout between portscans
+            }, 1000); //1000 milisec delay..  
+
+    
+            //end portscan 1/2
         });
 
 
