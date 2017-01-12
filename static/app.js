@@ -221,6 +221,9 @@ function getLastUpdated(lastUpdated) {
     var endDate   = new Date(es.serverTime);
     var seconds = Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
 
+    var dateZero = new Date(null);
+    if (dateZero.getTime() == startDate.getTime()) return 'Never';
+
     return seconds + ' seconds ago';
 
 }
