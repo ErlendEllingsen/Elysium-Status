@@ -70,7 +70,11 @@ es.render = function() {
         
         if (es.queueData != null && es.queueData != {} && es.queueData.servers != undefined) {
 
-            var aqdataValid = ((Math.abs(new Date() - es.queueData.recieved_at) / 1000) <= 3 * 60); //Data must be max three minutes old.
+            var aqdataValid = ((Math.abs(new Date() - es.queueData.recieved_at) / 1000) <= (3 * 60)); //Data must be max three minutes old.
+            if (!aqdataValid) {
+                $("tr[data-srv='" + name + "']").find('.queueText').html('Queue unavailable');
+                continue; 
+            }
 
             //Find AutoQueue for server 
             var foundSrv = null; 
