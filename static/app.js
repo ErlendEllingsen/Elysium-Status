@@ -87,7 +87,8 @@ es.render = function() {
             if (foundSrv == null) continue; //Did not found server.
 
             //Check timing of data...
-            var timingOK = ((Math.abs(es.queueData.export_time - foundSrv.last_updated) / 1000) > (3*60)) foundSrv.queueAvailable = false;
+            var timingOK = ((Math.abs(es.queueData.export_time - foundSrv.last_updated) / 1000) > (3*60));
+            if (!timingOK) foundSrv.queueAvailable = false;
 
             var queueText = (foundSrv.queueAvailable ? "Queue: " + foundSrv.queue : 'Queue unavailable');
             $("tr[data-srv='" + name + "']").find('.queueText').html(queueText);
