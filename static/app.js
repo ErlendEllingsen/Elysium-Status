@@ -73,7 +73,7 @@ es.render = function() {
             var aqdataValid = ((Math.abs(new Date() - es.queueData.recieved_at) / 1000) <= (3 * 60)); //Data must be max three minutes old.
 
             if (!aqdataValid) {
-                $("tr[data-srv='" + name + "']").find('.queueText').html('Queue unavailable');
+                $("tr[data-srv='" + name + "']").find('.queueText').html('Queues unavailable');
                 continue; 
             }
 
