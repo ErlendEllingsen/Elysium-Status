@@ -61,7 +61,8 @@ router.post('/auto-queue-update', function(req, res){
 
     //Check password
     console.log(autoqueue_password);
-    
+    console.log(req.body['password']);
+
     if (req.body['password'] != autoqueue_password) {
         res.sendStatus(403);
         return;
