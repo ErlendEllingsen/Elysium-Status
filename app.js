@@ -60,10 +60,8 @@ router.get('/fetch', function(req, res){
 router.post('/auto-queue-update', function(req, res){
 
     //Check password
-    console.log(autoqueue_password);
-    console.log(req.body['password']);
-
-    if (req.body['password'] != autoqueue_password) {
+  
+    if (req.body['password'].trim() != autoqueue_password.trim()) {
         res.sendStatus(403);
         return;
     }
