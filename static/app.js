@@ -57,6 +57,11 @@ es.newData = function(data) {
     //end es.newData
 }
 
+es.newQueueData = function(data) {
+    es.queueData = data.autoqueue;
+    es.render();
+}
+
 
 
 es.notify = function(changedStatuses) {
