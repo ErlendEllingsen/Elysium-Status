@@ -32,6 +32,7 @@ es.fetchQueueData = function() {
 }
 
 es.newData = function(data) {
+    es.data = data;
     es.serverTime = data.time;
 
     //COMPARE data
