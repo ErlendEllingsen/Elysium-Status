@@ -14,12 +14,13 @@ app.disable('x-powered-by');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
+//Keeper
 var Keeper = require('./modules/keeper');
 var keeper = new Keeper();
 keeper.process();
 
-
+//AutoQueue setup 
+var autoqueue_password = fs.readFileSync('./password_autoqueue.txt').toString();
 
 
 var http_port = 80;
@@ -56,11 +57,33 @@ router.get('/fetch', function(req, res){
     res.json(keeper.get());
 });
 
+router.post('/auto-queue-update', function(req, res){
+
+    //Check password
+    if (req.body['password'] !== autoqueue_password) {
+        res.sendStatus(403);
+        return;
+    }
+
+    if (req.body.autoqueue == undefined) return;
+    keeper.autoqueue = JSON.parse(req.body.autoqueue);
+    
+    //Note down when the queue was recieved at... (If data is too old, do not use).
+    keeper.autoqueue.recieved_at = new Date();
+    keeper.autoqueue_set = true;
+ 
+    //Dev: send autoqueue in return...
+    res.send("ok");
+    console.log("auto-queue-update triggered at " + new Date().toString());
+
+});
+
 router.get('/stats', function(req, res){
 
     var outcontent = {
         time: new Date(),
-        servers: {}
+        servers: {},
+        autoqueue: keeper.autoqueue
     };
 
     for (var serverName in keeper.statuses) {

@@ -64,6 +64,21 @@ module.exports = function () {
 
     };
 
+    this.autoqueue = {};
+    this.autoqueue_set = false;
+    this.autoqueueIsValid = function() {
+        
+        if (!self.autoqueue_set) return false; 
+
+        //Compare time 
+        var diff = (Math.abs(new Date() - self.autoqueue.recieved_at) / 1000); //diff in secs 
+        
+        if (diff > 60) return false; 
+
+
+        return true; 
+    }
+
     this.memory = {};
 
     this.memory.addMemory = function (name, status) {
@@ -95,6 +110,8 @@ module.exports = function () {
 
         //end
     }
+
+    
 
     this.processes = {};
 
@@ -148,6 +165,14 @@ module.exports = function () {
                 self.statuses[serverName].status = (self.memory.isMemoryBad(serverName) ? 'unstable' : true);
                 self.statuses[serverName].last_updated = new Date();
                 console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.green('UP'));
+
+                //SPECIAL TREATMENT - LOGON... 
+                //if auto-queue is valid and indicates that logon is unstable, then update status.
+                if ((serverName == "logon") && (self.autoqueueIsValid()) && (self.autoqueue.loginServerUnreliable)) {
+                    self.statuses[serverName].status = 'unstable'; 
+                    console.log(new Date().toString() + ' - ' + serverName + ' ' + colors.cyan('UNSTABLE (AQ)'));
+                }
+
                 return;
             }
 
