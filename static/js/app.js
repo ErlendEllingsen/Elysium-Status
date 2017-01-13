@@ -1,5 +1,4 @@
 var ElysiumStatus = {
-    serverTime: null,
     timeout: null,
     data: null,
     queueData: null,
@@ -33,8 +32,6 @@ es.fetchQueueData = function() {
 
 es.newData = function(data) {
     es.data = data;
-    es.serverTime = data.time;
-
     
     //Convert from minified to full 
     for (var serviceName in es.data.statuses) {
@@ -45,17 +42,14 @@ es.newData = function(data) {
         service.name = service.n; 
         service.status = service.s;
         service.last_updated = service.t;
-
-        
     }
     
-
     //COMPARE data
     var changedStatuses = [];
     for(var name in data.statuses) {
         if(data.statuses[name].status !== es.lastServerStatuses[name]) {
             changedStatuses.push({
-                name: name,
+                name: data.statuses[name].name,
                 status: data.statuses[name].status
             });
         }
@@ -83,7 +77,7 @@ es.newQueueData = function(data) {
 es.notify = function(changedStatuses) {
     if(es.notificationsAllowed && changedStatuses.length) {
         var notificationString = "";
-            changedStatuses.forEach(function(server) {
+        changedStatuses.forEach(function(server) {
             notificationString += notificationLine(server.name, server.status);
         });
 
@@ -111,23 +105,6 @@ es.checkNotifications = function() {
     }
 }
 
-function displayName(name) {
-    switch(name) {
-        case 'logon':
-            return 'Logon Server';
-        case 'website':
-            return 'Website';
-        case 'elysium_pvp':
-            return 'Elysium PvP';
-        case 'nostalrius_pvp':
-            return 'Nostalrius PvP';
-        case 'nostalrius_pve':
-            return 'Nostalrius PvE';
-    }
-
-    return name;
-}
-
 function notificationLine(name, status) {
     var statusString;
     switch(status) {
@@ -141,7 +118,7 @@ function notificationLine(name, status) {
             statusString = ' went offline.';
             break;
      }
-     return displayName(name) + statusString + '\n';
+     return name + statusString + '\n';
 }
   
 function playSound(soundObj) {
@@ -233,7 +210,7 @@ function getLastUpdated(lastUpdated) {
 
     // Do your operations
     
-    var endDate   = new Date(es.serverTime);
+    var endDate   = new Date(es.data.time);
     var seconds = Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
 
     var dateZero = new Date(null);
