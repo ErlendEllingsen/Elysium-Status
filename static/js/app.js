@@ -246,7 +246,18 @@ function getLastUpdated(lastUpdated) {
 
 
 $(document).ready(function(){
+
+
+
+    
+    page.setPage('overview'); 
+
     es.checkNotifications();
     es.fetchData();
     es.fetchQueueData();
+
+    //Binds
+    $('#btn_overview').on('click', {}, function(){ page.setPage('overview'); });
+    $('#btn_realmdetails').on('click', {}, function(){ page.setPage('realmdetails'); });
+
 });

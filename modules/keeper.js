@@ -50,8 +50,8 @@ module.exports = function () {
             "interval": false,
             "memory": [],
             "endpoint": {
-                "ip": null,
-                "port": null
+                "ip": "151.80.103.221",
+                "port": "8093"
             }
         },
         "nostalrius_pvp": {
@@ -225,7 +225,7 @@ module.exports = function () {
         self.processes['scan-server']('elysium_pvp');
         self.processes['scan-server']('nostalrius_pvp');
         self.processes['scan-server']('nostalrius_pve');
-        //self.processes['scan-server']('zethkur_pvp');
+        self.processes['scan-server']('zethkur_pvp');
 
         //end Keeper.processes['servers']
     }
