@@ -46,7 +46,7 @@ var accessLogStream = FileStreamRotator.getStream({
 });
 
 // setup the logger
-app.use(morgan(':req[client-realip] hahalol - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"', {stream: accessLogStream}));
+app.use(morgan(':req[client-realip] - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"', {stream: accessLogStream}));
 
 //Keeper
 var Keeper = require('./modules/keeper');
