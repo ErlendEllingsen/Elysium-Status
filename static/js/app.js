@@ -179,7 +179,7 @@ es.render = function() {
             if (foundSrv == null) continue; //Did not found server.
 
             //Check timing of data...
-            var timingOK = ((Math.abs(new Date(es.queueData.export_time) - new Date(foundSrv.last_updated)) / 1000) < (5*60));
+            var timingOK = ((Math.abs(new Date(es.queueData.export_time) - new Date(foundSrv.last_updated)) / 1000) < (10*60)); //10 minute data freshness requirement
             if (!timingOK) foundSrv.queueAvailable = false;
 
             var queueText = (foundSrv.queueAvailable ? "Queue: " + foundSrv.queue : 'Queue unavailable');
