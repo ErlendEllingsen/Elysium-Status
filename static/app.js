@@ -35,6 +35,21 @@ es.newData = function(data) {
     es.data = data;
     es.serverTime = data.time;
 
+    
+    //Convert from minified to full 
+    for (var serviceName in es.data.statuses) {
+        
+        var service = es.data.statuses[serviceName];
+        
+        //Set new 
+        service.name = service.n; 
+        service.status = service.s;
+        service.last_updated = service.t;
+
+        
+    }
+    
+
     //COMPARE data
     var changedStatuses = [];
     for(var name in data.statuses) {

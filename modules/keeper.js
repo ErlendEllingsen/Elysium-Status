@@ -253,9 +253,9 @@ module.exports = function () {
             var srv = self.statuses[server];
 
             outStatuses[server] = {
-                'name': srv.name,
-                'status': srv.status,
-                'last_updated': srv['last_updated']
+                'n': srv.name, //n = name
+                's': srv.status, //s = status 
+                't': srv['last_updated'] //t = last_updated (time)
             };
 
         }
