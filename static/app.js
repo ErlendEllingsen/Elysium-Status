@@ -25,7 +25,7 @@ es.fetchData = function() {
 }
 
 es.fetchQueueData = function() {
-    $.get('/stats', function(data){
+    $.get('/fetch-queue', function(data){
         es.newQueueData(data);
         es.queueTimeout = setTimeout(es.fetchQueueData, 60 * 1000);
     });

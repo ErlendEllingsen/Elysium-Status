@@ -57,6 +57,10 @@ router.get('/fetch', function(req, res){
     res.json(keeper.get());
 });
 
+router.get('/fetch-queue', function(req, res){
+    res.json({autoqueue: keeper.autoqueue});
+});
+
 router.post('/auto-queue-update', function(req, res){
 
     //Check password
