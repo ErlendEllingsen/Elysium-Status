@@ -6,7 +6,6 @@ var http = require('http');
 var colors = require('colors');
 var router = express.Router(); 
 
-var cloudflare = require('cloudflare-express');
 var path = require('path');
 var morgan = require('morgan');
 var FileStreamRotator = require('file-stream-rotator');
@@ -17,7 +16,16 @@ var FileStreamRotator = require('file-stream-rotator');
 app.disable('x-powered-by');
 
 //Restore ip from CF 
-app.use(cloudflare.restore());
+app.use(function(req, res, next){
+
+    req.headers['client-realip'] = req.ip;
+
+    if (req.headers['cf-connecting-ip'] != undefined) {
+        req.headers['client-realip'] = req.headers['cf-connecting-ip'];
+    }
+
+    next();
+});
 
 //Use bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,7 +46,7 @@ var accessLogStream = FileStreamRotator.getStream({
 });
 
 // setup the logger
-app.use(morgan('combined', {stream: accessLogStream}));
+app.use(morgan(':req[client-realip] hahalol - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"', {stream: accessLogStream}));
 
 //Keeper
 var Keeper = require('./modules/keeper');
