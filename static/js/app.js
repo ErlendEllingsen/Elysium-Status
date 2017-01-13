@@ -14,10 +14,27 @@ var es = ElysiumStatus;
 es.fetchData = function() {
 
     $('#loadingImage').fadeIn();
-    $.get('./fetch', function(data){
-        es.newData(data);
-        $('#loadingImage').fadeOut();
-        es.timeout = setTimeout(es.fetchData, 15 * 1000);
+    $.get({
+        url: './fetch',
+
+        success: function(data) {
+            es.newData(data);
+            es.timeout = setTimeout(es.fetchData, 15 * 1000);
+
+            $("#data-unavailable").remove();
+        },
+        error: function() {
+            es.timeout = setTimeout(es.fetchData, 10 * 1000);
+
+            if(!$("#data-unavailable").length) {
+                $("#pageContent").append(
+                    '<div id="data-unavailable"><span>Data currently unavailable.</span><br/><span>Retrying...<span></div>'
+                );
+            }
+        },
+        complete: function() {
+            $('#loadingImage').fadeOut();
+        }
     });
 
     //end es.fetchData
