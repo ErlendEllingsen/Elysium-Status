@@ -6,6 +6,11 @@ var http = require('http');
 var colors = require('colors');
 var router = express.Router(); 
 
+var path = require('path');
+var morgan = require('morgan');
+var FileStreamRotator = require('file-stream-rotator');
+
+
 //--- EXPRESS CORE SETUP ---
 //Hide software from potential attackers.
 app.disable('x-powered-by');
@@ -13,6 +18,23 @@ app.disable('x-powered-by');
 //Use bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+//-- LOGGER --
+var logDirectory = path.join(__dirname, 'log');
+
+// ensure log directory exists
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
+
+// create a rotating write stream
+var accessLogStream = FileStreamRotator.getStream({
+  date_format: 'YYYYMMDD',
+  filename: path.join(logDirectory, 'access-%DATE%.log'),
+  frequency: 'daily',
+  verbose: false
+});
+
+// setup the logger
+app.use(morgan('combined', {stream: accessLogStream}));
 
 //Keeper
 var Keeper = require('./modules/keeper');

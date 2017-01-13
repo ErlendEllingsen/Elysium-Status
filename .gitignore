@@ -1,6 +1,8 @@
+
 password_autoqueue.txt
 
 # Logs
+log
 logs
 *.log
 npm-debug.log*
