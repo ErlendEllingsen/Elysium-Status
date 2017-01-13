@@ -6,6 +6,7 @@ var http = require('http');
 var colors = require('colors');
 var router = express.Router(); 
 
+var cloudflare = require('cloudflare-express');
 var path = require('path');
 var morgan = require('morgan');
 var FileStreamRotator = require('file-stream-rotator');
@@ -14,6 +15,9 @@ var FileStreamRotator = require('file-stream-rotator');
 //--- EXPRESS CORE SETUP ---
 //Hide software from potential attackers.
 app.disable('x-powered-by');
+
+//Restore ip from CF 
+app.use(cloudflare.restore());
 
 //Use bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
