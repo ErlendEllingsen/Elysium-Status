@@ -146,7 +146,7 @@ module.exports = function () {
 
         request.get('https://elysium-project.org/status', {
 
-            timeout: (10 * 1000)
+            timeout: (15 * 1000)
 
         }, function (err, response, body) {
 
