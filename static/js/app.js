@@ -4,12 +4,20 @@ var ElysiumStatus = {
     queueData: null,
     queueTimeout: null,
 
+    /// Language ///
+    language: {
+        localization: null,
+        browser_lang: 'en'
+    },
+
     /// Notifications ///
     isFirstFetch: true,
     lastServerStatuses: [],
     notificationsAllowed: false    
 };
+
 var es = ElysiumStatus;
+var lang = es.language.localization;
 
 es.fetchData = function() {
 
@@ -195,26 +203,26 @@ function getStatusText(status) {
     if (status == 'unknown') return '' + 
         '<h3 class="srvUnknown">' + 
         '   <i class="fa fa-question-circle-o"></i>' + 
-        '    Unknown' + 
+        '    ' + upperFirst(lang.processKey('status_unknown'))+
         '</h3>';
 
     if (status == 'unstable') return '' + 
         '<h3 class="srvUnstable">' + 
         '   <i class="fa fa-exclamation-circle"></i>' + 
-        '    May be unstable' + 
+        '    ' + upperFirst(lang.processKey('status_unstable'))+ 
         '</h3>';
 
     if (status) return '' + 
         '<h3 class="srvOnline">' + 
         '   <i class="fa fa-check-circle"></i>' + 
-        '    Online' + 
+        '    ' + upperFirst(lang.processKey('status_online'))+
         '</h3>';
 
     //Not true
     return '' + 
         '<h3 class="srvOffline">' + 
         '   <i class="fa fa-times-circle"></i>' + 
-        '    Offline' + 
+        '    ' + upperFirst(lang.processKey('status_offline'))+
         '</h3>';
 
 }
@@ -231,9 +239,9 @@ function getLastUpdated(lastUpdated) {
     var seconds = Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
 
     var dateZero = new Date(null);
-    if (dateZero.getTime() == startDate.getTime()) return 'Never';
+    if (dateZero.getTime() == startDate.getTime()) return upperFirst(lang.processKey('never'));
 
-    return seconds + ' seconds ago';
+    return seconds + ' ' + lang.processKey('seconds_ago');
 
 }
 
@@ -241,17 +249,59 @@ function getLastUpdated(lastUpdated) {
 
 $(document).ready(function(){
 
-
+    
 
     
-    page.setPage('overview'); 
 
-    es.checkNotifications();
-    es.fetchData();
-    es.fetchQueueData();
+    //Language 
+    lang = new Localization();
+    
+    es.language.browser_lang = (navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage));
+
+    es.language.browser_lang = lang.tools.convertLanguage(es.language.browser_lang)
+
+    console.log('user lang is ' + es.language.browser_lang);
+
+    
+    lang.initialize('./static/locale/', function(){
+
+        //Set locale to browser or fallback..
+        lang.setLocale(lang.supportsLocale(es.language.browser_lang) ? es.language.browser_lang : 'en');
+
+        //Language loaded 
+        lang.loadModule('app.json', function(){
+            
+            //LOADED!
+
+            //Data 
+            es.checkNotifications();
+            es.fetchData();
+            es.fetchQueueData();
+
+            //Set page 
+            $('body').css('display', 'block');
+            page.setPage('overview'); 
+            es.postLoadTranslate();
+
+        });
+
+    });
 
     //Binds
     $('#btn_overview').on('click', {}, function(){ page.setPage('overview'); });
     $('#btn_realmdetails').on('click', {}, function(){ page.setPage('realmdetails'); });
 
 });
+
+es.postLoadTranslate = function() {
+
+    //Nav btn 
+    $('span[data-lang-key="nav_overview"]').html(upperFirst(lang.processKey('nav_overview')));
+    $('span[data-lang-key="nav_realm_details"]').html(upperFirst(lang.processKey('nav_realm_details')));
+
+    //Donate
+    $('span[data-lang-key="donate_text"]').html(upperFirst(lang.processKey('donate_text')));
+    $('a[data-lang-key="donate_text_action"]').html(lang.processKey('donate_text_action'));
+
+    //end es.postLoadTranslate();
+}

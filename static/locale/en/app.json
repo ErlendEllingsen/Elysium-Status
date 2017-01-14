@@ -1,0 +1,29 @@
+{
+    "title": "app",
+    "content": {
+        "live": "live",
+        "service": "service",
+        "status": "status",
+        "last_updated": "last updated",
+        
+        "nav_overview": "overview",
+        "nav_realm_details": "realm details",
+
+        "status_online": "online",
+        "status_offline": "offline",
+        "status_unstable": "may be unstable",
+        "status_unknown": "unknown",
+
+        "seconds_ago": "seconds ago",
+        "never": "never",
+
+        "queue": "queue",
+        "queues_unavailable_plural": "queues unavailable",
+        "queues_unavailable_singular": "queue unavialable",
+
+        "donate_text": "Please consider helping keep this site alive by",
+        "donate_text_action": "donating",
+        "donate": "donate"
+
+    }
+}
