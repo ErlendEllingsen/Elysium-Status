@@ -1,0 +1,29 @@
+{
+    "title": "app",
+    "content": {
+        "live": "live",
+        "service": "tjeneste",
+        "status": "status",
+        "last_updated": "sist oppdatert",
+        
+        "nav_overview": "oversikt",
+        "nav_realm_details": "server-detaljer",
+
+        "status_online": "online",
+        "status_offline": "offline",
+        "status_unstable": "kan være ustabil",
+        "status_unknown": "ukjent",
+
+        "seconds_ago": "sekunder siden",
+        "never": "aldri",
+
+        "queue": "kø",
+        "queues_unavailable_plural": "køer utilgjengelig",
+        "queues_unavailable_singular": "kø utilgjengelig",
+
+        "donate_text": "Vennligst vurder å holde denne nettsiden i live ved å",
+        "donate_text_action": "donere",
+        "donate": "doner"
+        
+    }
+}

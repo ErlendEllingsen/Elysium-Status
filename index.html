@@ -24,12 +24,19 @@
         <!-- Own --> 
         <script src="static/js/app.js"></script>
         <script src="static/js/page.js"></script>
+        <script src="static/js/misc.js"></script>
 
         <style>
-
-        table h3 {
-            text-transform: capitalize;
+    
+        .uppercase::first-letter {
+            text-transform: uppercase;
         }
+
+        table h3::first-letter {
+            text-transform: uppercase;
+        }
+
+
 
         .srvInfrastructure {
             color: #715284;
@@ -79,7 +86,7 @@
         </script>
 
     </head>
-    <body>
+    <body style="display: none;">
 
         
         <!-- Fixed navbar -->
@@ -128,10 +135,10 @@
                         </div>
                     </div>
                     <!-- Site nav  --> 
-                    <div>
-                        <button data-nav-alternative="overview" id="btn_overview" class="btn btn-primary navBtn"><i class="fa fa-flash"></i> Overview</button>
-                        <button data-nav-alternative="realmdetails" id="btn_realmdetails" class="btn btn-default navBtn"><i class="fa fa-pie-chart"></i> Realm details</button>
-                    </div>
+                    <nav>
+                        <button data-nav-alternative="overview" id="btn_overview" class="btn btn-primary navBtn"><i class="fa fa-flash"></i> <span class="uppercase" data-lang-key="nav_overview">Overview</span></button>
+                        <button data-nav-alternative="realmdetails" id="btn_realmdetails" class="btn btn-default navBtn"><i class="fa fa-pie-chart"></i> <span class="uppercase" data-lang-key="nav_realm_details">Realm details</span></button>
+                    </nav>
 
                     <br>
                     
@@ -144,7 +151,7 @@
 
                     <!-- LINKS: Donate & github links -->
                     <p style="font-size: 15px;">
-                        Please consider helping keep this site alive by <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RP3UXQENTFMXA" target="_blank">donating</a>.
+                        <span data-lang-key="donate_text">Please consider helping keep this site alive by</span> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RP3UXQENTFMXA" target="_blank" data-lang-key="donate_text_action">donating</a>.
                         
                         <!-- Github buttons -->
                         <br><br>

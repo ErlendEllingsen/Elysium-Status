@@ -14,6 +14,16 @@
         "status_unstable": "may be unstable",
         "status_unknown": "unknown",
 
-        "seconds_ago": "seconds ago"
+        "seconds_ago": "seconds ago",
+        "never": "never",
+
+        "queue": "queue",
+        "queues_unavailable_plural": "queues unavailable",
+        "queues_unavailable_singular": "queue unavialable",
+
+        "donate_text": "Please consider helping keep this site alive by",
+        "donate_text_action": "donating",
+        "donate": "donate"
+
     }
 }

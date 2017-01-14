@@ -1,0 +1,29 @@
+{
+    "title": "app",
+    "content": {
+        "live": "live",
+        "service": "service",
+        "status": "statut",
+        "last_updated": "Dernier mettre à jour",
+       
+        "nav_overview": "aperçu",
+        "nav_realm_details": "Détails du domain",
+ 
+        "status_online": "En Ligne",
+        "status_offline": "hors ligne",
+        "status_unstable": "peut être instable",
+        "status_unknown": "inconnu",
+ 
+        "seconds_ago": "secondes passé",
+        "never": "jamais",
+
+        "queue": "queue",
+        "queues_unavailable_plural": "queue indisponible",
+        "queues_unavailable_singular": "queue indisponible",
+ 
+        "donate_text": "Veuillez envisager de faire un don pour continuer la vie du site",
+        "donate_text_action": "en train de faire un don",
+        "donate": "don"
+ 
+    }
+}

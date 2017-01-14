@@ -34,6 +34,9 @@ page.translatePage = function(page, data) {
         return data;
 
     }
+    
+    //fallback
+    return data;
 
     //end page.translatePage
 }

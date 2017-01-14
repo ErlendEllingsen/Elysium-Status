@@ -3,7 +3,7 @@
  * Javascript platform for localization and globalization.
  * 
  * @author Erlend Ellingsen <erlend.ame@gmail.com
- * @version 1.1.0 26.12.2016
+ * @version 1.2.0 14.01.2017
  */
 
 var Localization = function() {
@@ -24,7 +24,29 @@ var Localization = function() {
     this.tools.findAndReplace = function(subject, search, replacement) {
         var target = subject;
         return target.replace(new RegExp(search, 'g'), replacement);
-    };
+    };  
+    this.tools.convertLanguage = function(lang) {
+
+        var lang_lower = lang.toLowerCase();
+
+        switch (lang_lower) {
+
+            case 'no-nb': case 'no-nn': case 'nb': case 'nn': //Norwegian
+                return 'no';
+            case 'fr-fr': case 'fr-be': case 'fr-ch': //French
+                return 'fr';
+            case 'en-gb': case 'en-us': //English
+                return 'en';
+            case 'es-ni': case 'es-sv': case 'es-py': case 'es-cl': case 'es-ar': case 'es-co': case 'es-do': //Spanish
+            case 'es-cr': case 'es-mx': //Spanish
+                return 'es';
+            default: 
+                return lang;
+            
+        }
+
+    }
+
 
     this.initialize = function(configpath, callback) {
 
