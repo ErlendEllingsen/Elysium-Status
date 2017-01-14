@@ -1,0 +1,29 @@
+{
+    "title": "app",
+    "content": {
+        "live": "direkt",
+        "service": "tjänst",
+        "status": "status",
+        "last_updated": "senast uppdaterad",
+        
+        "nav_overview": "översikt",
+        "nav_realm_details": "serverinformation",
+
+        "status_online": "online",
+        "status_offline": "off-line",
+        "status_unstable": "kan vara instabil",
+        "status_unknown": "ukjent",
+
+        "seconds_ago": "sekunder sedan",
+        "never": "aldrig",
+
+        "queue": "kö",
+        "queues_unavailable_plural": "köer otillgängliga",
+        "queues_unavailable_singular": "kö otillgängliga",
+
+        "donate_text": "Vänligen överväga att hålla denna webbplats vid liv genom att",
+        "donate_text_action": "donera",
+        "donate": "donera"
+        
+    }
+}
