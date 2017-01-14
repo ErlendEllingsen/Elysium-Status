@@ -5,12 +5,20 @@ var ElysiumStatus = {
     queueData: null,
     queueTimeout: null,
 
+    /// Language ///
+    language: {
+        localization: null,
+        browser_lang: 'en-GB'
+    },
+
     /// Notifications ///
     isFirstFetch: true,
     lastServerStatuses: [],
     notificationsAllowed: false    
 };
+
 var es = ElysiumStatus;
+var lang = es.language.localization;
 
 es.fetchData = function() {
 
@@ -247,17 +255,35 @@ function getLastUpdated(lastUpdated) {
 
 $(document).ready(function(){
 
-
-
     
-    page.setPage('overview'); 
 
+    //Data 
     es.checkNotifications();
     es.fetchData();
     es.fetchQueueData();
+
+    //Language 
+    es.language.browser_lang = navigator.language || navigator.userLanguage; 
+    lang = new Localization();
+    lang.initialize('./static/locale/', function(){
+
+        //Set locale to browser or fallback..
+        lang.setLocale(lang.supportsLocale(es.language.browser_lang) ? es.language.browser_lang : 'en-GB');
+
+        //Language loaded 
+        lang.loadModule('app.json', function(){
+            
+            //Set page 
+            page.setPage('overview'); 
+
+
+        });
+
+    });
 
     //Binds
     $('#btn_overview').on('click', {}, function(){ page.setPage('overview'); });
     $('#btn_realmdetails').on('click', {}, function(){ page.setPage('realmdetails'); });
 
 });
+
