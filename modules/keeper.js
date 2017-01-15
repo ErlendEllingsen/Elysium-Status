@@ -54,8 +54,8 @@ module.exports = function () {
                 "port": "8093"
             }
         },
-        "nostalrius_pvp": {
-            "name": "Nostalrius PVP",
+        "anathema_pvp": {
+            "name": "Anathema PVP",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -65,8 +65,8 @@ module.exports = function () {
                 "port": 8095
             }
         },
-        "nostalrius_pve": {
-            "name": "Nostalrius PVE",
+        "darrowshire_pve": {
+            "name": "Darrowshire PVE",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -223,8 +223,8 @@ module.exports = function () {
     this.processes['servers'] = function () {
 
         self.processes['scan-server']('elysium_pvp');
-        self.processes['scan-server']('nostalrius_pvp');
-        self.processes['scan-server']('nostalrius_pve');
+        self.processes['scan-server']('anathema_pvp');
+        self.processes['scan-server']('darrowshire_pve');
         self.processes['scan-server']('zethkur_pvp');
 
         //end Keeper.processes['servers']
