@@ -1,0 +1,29 @@
+{
+    "title": "app",
+    "content": {
+        "live": "uživo",
+        "service": "servis",
+        "status": "status",
+        "last_updated": "poslednje ažurirano",
+        
+        "nav_overview": "pregled",
+        "nav_realm_details": "detalji servera",
+
+        "status_online": "online",
+        "status_offline": "offline",
+        "status_unstable": "moguće nestabilno",
+        "status_unknown": "nepoznato",
+
+        "seconds_ago": "sekundi ranije",
+        "never": "nikad",
+
+        "queue": "red",
+        "queues_unavailable_plural": "redovi nedostupni",
+        "queues_unavailable_singular": "red nedostupan",
+        
+        "donate_text": "Pomozite da održimo sajt u životu tako što ćete",
+        "donate_text_action": "donirati",
+        "donate": "doniraj"
+
+    }
+}
