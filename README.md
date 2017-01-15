@@ -33,6 +33,8 @@ Got any ideas? Contribute by creating a creating a fork and then a pull request.
 Want to help with translating? [Read here](https://forum.elysium-project.org/topic/32573-seeking-players-of-all-nationalities-non-english/)
 
 * **Azshrinn** - French
+* **rsKliPPy** - Serbian
+* 
 
 
 ##License
