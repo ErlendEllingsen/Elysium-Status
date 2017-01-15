@@ -34,7 +34,7 @@ Want to help with translating? [Read here](https://forum.elysium-project.org/top
 
 * **Azshrinn** - French
 * **rsKliPPy** - Serbian
-* 
+* **Dranthos** - Spanish
 
 
 ##License
