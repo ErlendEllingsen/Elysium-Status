@@ -1,5 +1,5 @@
 # Elysium-Status
-> See if Elysium / Nostalrius is online or offline. Elysium Status is monitoring the private WoW-server Elysium and its services (website, logon-server and wow-servers). Online monitoring live.
+> See if Elysium is online or offline. Elysium Status is monitoring the private WoW-server Elysium and its services (website, logon-server and wow-servers). Online monitoring live.
 
 Available at [www.elysiumstatus.com](https://www.elysiumstatus.com)
 
