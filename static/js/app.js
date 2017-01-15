@@ -172,16 +172,12 @@ es.render = function() {
             }
 
             //Find AutoQueue for server 
-            var foundSrv = null; 
-            for (var i = 0; i < es.queueData.servers.length; i++) {
-                var aqserver = es.queueData.servers[i]; //autoqueue-server
-                if (aqserver.name == server.name) { foundSrv = aqserver; break; }
-            }
+            var foundSrv = (es.queueData.servers[name] != undefined ? es.queueData.servers[name] : null);
 
             if (foundSrv == null) continue; //Did not found server.
 
             //Check timing of data...
-            var timingOK = ((Math.abs(new Date(es.queueData.export_time) - new Date(foundSrv.last_updated)) / 1000) < (10*60)); //10 minute data freshness requirement
+            var timingOK = ((Math.abs(new Date(es.queueData.export_time) - new Date(foundSrv.last_updated)) / 1000) < (15*60)); //10 minute data freshness requirement
             if (!timingOK) foundSrv.queueAvailable = false;
 
             var queueText = (foundSrv.queueAvailable ? "Queue: " + foundSrv.queue : 'Queue unavailable');
