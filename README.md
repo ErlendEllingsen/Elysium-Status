@@ -1,4 +1,4 @@
-# Elysium-Status
+# ⚡️Elysium-Status
 > See if Elysium is online or offline. Elysium Status is monitoring the private WoW-server Elysium and its services (website, logon-server and wow-servers). Online monitoring live.
 
 Available at [www.elysiumstatus.com](https://www.elysiumstatus.com)
@@ -11,7 +11,6 @@ Help especially wanted for:
 * Data optimalization / bandwidth reduction (!!) 
 * Translation
 * Integrating realm-data from [elysium-project.org/status](https://elysium-project.org/status) to "realm details"-page.
-* New features
 
 **Translators, Traducteurs, переводчики, Übersetzer, Traductores!**
 
@@ -25,11 +24,11 @@ Got any ideas? Contribute by creating a creating a fork and then a pull request.
 
 
 ##Thanks to
-###Contributors
+###💻Contributors
 * **[rsKliPPy](https://github.com/rsKliPPy)**
 * **[emmoistner](https://github.com/emmoistner)**
 
-###Translators
+###🌎Translators
 Want to help with translating? [Read here](https://forum.elysium-project.org/topic/32573-seeking-players-of-all-nationalities-non-english/)
 
 * **Azshrinn** - French
@@ -37,7 +36,7 @@ Want to help with translating? [Read here](https://forum.elysium-project.org/top
 * **Dranthos** - Spanish
 
 
-##License
+##📖License
 MIT License
 
 Copyright (c) 2016 Erlend Ellingsen
