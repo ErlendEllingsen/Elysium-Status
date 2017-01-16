@@ -6,6 +6,12 @@ const portscanner = require('portscanner');
 module.exports = function () {
     var self = this;
 
+    // --- SETUP --- 
+    this.outcache = null;
+    this.setOutcache = function(outcache) {
+        self.outcache = outcache;
+    }
+
     /**
      * --- INTERNAL ---
      */
@@ -79,6 +85,8 @@ module.exports = function () {
 
 
     };
+    
+    // --- AUTOQUEUE ---
 
     this.autoqueue = {};
     this.autoqueue_set = false;
@@ -94,6 +102,8 @@ module.exports = function () {
 
         return true; 
     }
+
+    // --- MEMORY ---
 
     this.memory = {};
 
@@ -127,7 +137,7 @@ module.exports = function () {
         //end
     }
 
-    
+    // --- STATUS PROCESSING (CORE) ---
 
     this.processes = {};
 
@@ -138,6 +148,9 @@ module.exports = function () {
 
        self.processes['scan-server']('logon');
        self.processes['servers']();
+
+       //Update cache!
+       self.outcache.render('fetch'); 
 
         //end Keeper.processes['logon']
     }
@@ -165,8 +178,10 @@ module.exports = function () {
 
         });
 
+        //Update cache!
+        self.outcache.render('fetch');
 
-        //end Keeper.processes['logon']
+        //end Keeper.processes['website']
     }
 
     this.processes['scan-server'] = function(serverName) {
@@ -231,6 +246,8 @@ module.exports = function () {
     }
 
     this.process = function () {
+        
+        //The realms are invoked by login-process 
 
         self.statuses['logon'].interval = setInterval(self.processes['logon'], (self.statuses['logon'].timer * 1000));
         self.statuses['website'].interval = setInterval(self.processes['website'], (self.statuses['website'].timer * 1000));

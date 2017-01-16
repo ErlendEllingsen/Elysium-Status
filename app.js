@@ -51,6 +51,16 @@ app.use(morgan(':req[client-realip] - :remote-user [:date[clf]] ":method :url HT
 //Keeper
 var Keeper = require('./modules/keeper');
 var keeper = new Keeper();
+
+
+//Outcache 
+var Outcache = require('./modules/outcache');
+var outcache = new Outcache(keeper);
+
+keeper.setOutcache(outcache);
+
+//Start everything
+outcache.init();
 keeper.process();
 
 //AutoQueue setup 
@@ -88,11 +98,11 @@ router.get('/', function(req, res){
 });
 
 router.get('/fetch', function(req, res){
-    res.json(keeper.get());
+    res.json(outcache.get('fetch'));
 });
 
 router.get('/fetch-queue', function(req, res){
-    res.json({autoqueue: keeper.autoqueue});
+    res.json(outcache.get('fetch-queue'));
 });
 
 router.post('/auto-queue-update', function(req, res){
@@ -115,32 +125,12 @@ router.post('/auto-queue-update', function(req, res){
     res.send("ok");
     console.log("auto-queue-update triggered at " + new Date().toString());
 
+    //Update cache!
+    self.outcache.render('fetch-queue');
+    self.outcache.render('fetch-stats');
+
 });
 
 router.get('/stats', function(req, res){
-
-    var outcontent = {
-        time: new Date(),
-        servers: {},
-        autoqueue: keeper.autoqueue
-    };
-
-    for (var serverName in keeper.statuses) {
-        
-        var outServer = {};
-        var storedServer = keeper.statuses[serverName];
-
-        outServer.status = storedServer.status;
-        outServer.last_updated = storedServer.last_updated;
-
-        //Include memory for some servers..
-        if (storedServer.memory != undefined) outServer.memory = storedServer.memory;
-        
-
-        outcontent.servers[serverName] = outServer;
-
-    }
-
-    res.json(outcontent);
-
+    res.json(outcache.get('stats'));
 });
