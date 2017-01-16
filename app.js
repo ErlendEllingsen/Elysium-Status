@@ -99,6 +99,10 @@ router.get('/', function(req, res){
     res.sendFile('index.html', {root: __dirname })
 });
 
+router.get('/privacy-policy', function(req, res){
+    res.sendFile('privacypolicy.html', {root: __dirname })
+});
+
 router.get('/fetch', function(req, res){
     res.json(outcache.get('fetch'));
 });
