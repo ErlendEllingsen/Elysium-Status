@@ -10,9 +10,9 @@ page.setPage = function(newPage) {
 
         $('#pageContent').html(data);
 
-        $('button[data-nav-alternative="' + page.currentPage + '"]').attr('class', 'btn btn-default navBtn');
+        $('a[data-nav-alternative="' + page.currentPage + '"]').parent().attr('class', '');
         page.currentPage = newPage;
-        $('button[data-nav-alternative="' + page.currentPage + '"]').attr('class', 'btn btn-primary navBtn');
+        $('a[data-nav-alternative="' + page.currentPage + '"]').parent().attr('class', 'active');
         
 
         page.loaded(newPage);

@@ -1,0 +1,109 @@
+.uppercase::first-letter {
+    text-transform: uppercase;
+}
+
+table h3::first-letter {
+    text-transform: uppercase;
+}
+
+.srvInfrastructure {
+    color: #715284;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.srvOnline {
+    color: green;
+}
+
+.srvOffline {
+    color: red;
+}
+
+.srvUnstable {
+    color: #f98f65;
+}
+
+.serverTitle {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+.queueText {
+    color: #6f6f6f;
+}
+    
+.twitter-timeline {
+    margin-top: 20px !important;
+}
+
+.navBtn {
+    outline: none;
+}
+
+#siteHeader {
+        background-image: url('../img/header.png');
+        min-height: 216px;
+        background-position: center;
+        border-bottom-left-radius: 5px;
+        border-top-left-radius: 3px;
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 3px;
+        margin: 0px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+
+        color: #FFF;
+        text-shadow: 1px 1px 1px #000;
+}
+
+#siteHeader small {
+    color: #FFF;
+}
+
+
+#data-unavailable {
+    background: rgba(0, 0, 0, 0.9);
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding-top: 30%;
+    text-align: center;
+}
+#data-unavailable > span {
+    font-size: 2em;
+    color: white;
+}
+
+/**
+ --- PAGE: OVERVIEW ---
+*/
+
+table#services-status-table {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+table#services-status-table tr:first-child th {
+    border-top: 0px;
+}
+
+/*
+ --- PAGE: SERVER-DETAILS 
+*/
+
+div#pageServerDetails {
+
+    padding: 20px;
+
+    background-color: #FFF;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

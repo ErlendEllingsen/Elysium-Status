@@ -21,75 +21,14 @@
         <!-- Plugins -->
         <script src="static/plugins/localization-js/localization.js"></script>
 
-        <!-- Own --> 
+        <!-- SITE STYLE --> 
+        <link rel="stylesheet" href="static/css/site.css">
+
+        <!-- SITE CODE  --> 
         <script src="static/js/app.js"></script>
         <script src="static/js/page.js"></script>
         <script src="static/js/misc.js"></script>
 
-        <style>
-    
-        .uppercase::first-letter {
-            text-transform: uppercase;
-        }
-
-        table h3::first-letter {
-            text-transform: uppercase;
-        }
-
-
-
-        .srvInfrastructure {
-            color: #715284;
-            text-shadow: 1px 1px 1px #000;
-        }
-        
-        .srvOnline {
-            color: green;
-        }
-
-        .srvOffline {
-            color: red;
-        }
-
-        .srvUnstable {
-            color: #f98f65;
-        }
-
-        .serverTitle {
-            margin-bottom: 0px;
-            padding-bottom: 0px;
-        }
-
-        .queueText {
-            color: #6f6f6f;
-        }
-            
-        .twitter-timeline {
-            margin-top: 20px !important;
-        }
-
-        .navBtn {
-            outline: none;
-        }
-
-        #data-unavailable {
-            background: rgba(0, 0, 0, 0.9);
-            width: 100%;
-            height: 100%;
-            min-width: 100%;
-            min-height: 100%;
-            position: absolute;
-            left: 0;
-            top: 0;
-            padding-top: 30%;
-            text-align: center;
-        }
-        #data-unavailable > span {
-            font-size: 2em;
-            color: white;
-        }
-
-        </style>
 
         <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -115,7 +54,7 @@
 
         
         <!-- Fixed navbar -->
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -151,21 +90,33 @@
                 <div class="col-md-7">
 
                     <!-- Site name and loading icon -->
-                    <div class="row">
-                        <div class="col-xs-6">
+                    <div class="row" id="siteHeader">
+                        <div class="col-xs-8">
                             <h1>Elysium Status <small>Live</small></h1>
                         </div>
-                        <div class="col-xs-6" style="text-align: right;">
+                        <div class="col-xs-4" style="text-align: right;">
                             <h1 id="loadingImage"><i class="fa fa-cog fa-spin fa-1x fa-fw"></i></h1>
                         </div>
                     </div>
+
                     <!-- Site nav  --> 
                     <nav>
-                        <button data-nav-alternative="overview" id="btn_overview" class="btn btn-primary navBtn"><i class="fa fa-flash"></i> <span class="uppercase" data-lang-key="nav_overview">Overview</span></button>
-                        <button data-nav-alternative="realmdetails" id="btn_realmdetails" class="btn btn-default navBtn"><i class="fa fa-pie-chart"></i> <span class="uppercase" data-lang-key="nav_realm_details">Realm details</span></button>
+                        <ul class="nav nav-tabs">
+                            <li role="presentation" class="active">
+                                <a id="btn_overview" data-nav-alternative="overview" href="#">
+                                    <i class="fa fa-flash"></i>
+                                    <span class="uppercase" data-lang-key="nav_overview">Overview</span>
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a id="btn_realmdetails" data-nav-alternative="realmdetails" href="#">
+                                    <i class="fa fa-pie-chart"></i>
+                                    <span class="uppercase" data-lang-key="nav_realm_details">Realm details</span>
+                                </a>
+                            </li>
+                        </ul>
+                    
                     </nav>
-
-                    <br>
                     
 
                     <!-- PAGE CONTENT -->
