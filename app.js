@@ -99,6 +99,10 @@ router.get('/', function(req, res){
     res.sendFile('index.html', {root: __dirname })
 });
 
+router.get('/terms', function(req, res){
+    res.sendFile('terms.html', {root: __dirname })
+});
+
 router.get('/privacy-policy', function(req, res){
     res.sendFile('privacypolicy.html', {root: __dirname })
 });
