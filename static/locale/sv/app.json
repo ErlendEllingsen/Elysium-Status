@@ -17,6 +17,9 @@
         "seconds_ago": "sekunder sedan",
         "never": "aldrig",
 
+        "players": "spelare",
+        "players_unavailable": "spelare inte tillgänglig",
+
         "queue": "kö",
         "queues_unavailable_plural": "köer otillgängliga",
         "queues_unavailable_singular": "kö otillgängliga",

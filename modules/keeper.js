@@ -3,7 +3,7 @@ const colors = require('colors');
 const request = require('request');
 const portscanner = require('portscanner');
 
-module.exports = function () {
+module.exports = function (devmode) {
     var self = this;
 
     // --- SETUP --- 
@@ -19,6 +19,7 @@ module.exports = function () {
     this.statuses = {
 
         "logon": {
+            "is_realm": false,
             "name": "Login Server",
             "status": false,
             "last_updated": null,
@@ -31,6 +32,7 @@ module.exports = function () {
             }
         },
         "website": {
+            "is_realm": false,
             "name": "Website",
             "status": false,
             "last_updated": null,
@@ -39,7 +41,10 @@ module.exports = function () {
             "memory": []
         },
         "elysium_pvp": {
+            "is_realm": true,
             "name": "Elysium PVP",
+            "website_identifier": "Elysium",
+            "app_identifier": "elysium_pvp",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -50,7 +55,10 @@ module.exports = function () {
             }
         },
         "zethkur_pvp": {
+            "is_realm": true,
             "name": "Zeth'Kur PVP",
+            "website_identifier": "Zeth&#039;Kur",
+            "app_identifier": "zethkur_pvp",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -61,7 +69,10 @@ module.exports = function () {
             }
         },
         "anathema_pvp": {
+            "is_realm": true,
             "name": "Anathema PVP",
+            "website_identifier": "Anathema",
+            "app_identifier": "anathema_pvp",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -72,7 +83,10 @@ module.exports = function () {
             }
         },
         "darrowshire_pve": {
+            "is_realm": true,
             "name": "Darrowshire PVE",
+            "website_identifier": "Darrowshire",
+            "app_identifier": "darrowshire_pve",
             "status": false,
             "last_updated": null,
             "interval": false,
@@ -102,6 +116,12 @@ module.exports = function () {
 
         return true; 
     }
+
+    // --- REALM DATA --- 
+    this.realmdata = {
+        available: false,
+        servers: {}
+    };
 
     // --- MEMORY ---
 
@@ -174,7 +194,7 @@ module.exports = function () {
             self.statuses.website.last_updated = new Date();
             console.log(new Date().toString() + ' - Website ' + colors.green('UP'));
 
-            
+            self.parseRealmStatusPage(body);
 
         });
 
@@ -245,17 +265,104 @@ module.exports = function () {
         //end Keeper.processes['servers']
     }
 
-    this.process = function () {
+    this.init = function () {
         
-        //The realms are invoked by login-process 
+        //Setup vars etc 
+        for (var serverIdentifier in self.statuses) {
+            var server = self.statuses[serverIdentifier];
+            if (!server.is_realm) continue; //Only setup realms
 
-        self.statuses['logon'].interval = setInterval(self.processes['logon'], (self.statuses['logon'].timer * 1000));
-        self.statuses['website'].interval = setInterval(self.processes['website'], (self.statuses['website'].timer * 1000));
+            //Setup realmdata
+            self.realmdata.servers[serverIdentifier] = {
+                population: 0,
+                uptime: null,
+                server_time: null,
+                percentage_alliance: null,
+                percentage_horde: null
+            };
+
+            //end realm setup loop 
+        }
+
+        //Start processing
+
+        self.statuses['logon'].interval = setInterval(self.processes['logon'], (devmode ? 5000 : self.statuses['logon'].timer * 1000));
+        self.statuses['website'].interval = setInterval(self.processes['website'], (devmode ? 5000 : self.statuses['website'].timer * 1000));
 
         self.processes['logon']();
         self.processes['website']();
 
-        //end process 
+        
+
+        //end init 
+    }
+
+    this.parseRealmStatusPage = function(body) {
+
+        try {
+
+            var realms = body.split('<div class="realm">');
+            realms.splice(0,1);
+
+            
+
+            for (var i = 0; i < realms.length; i++) {
+                var realmHTML = realms[i];
+
+                //Fetch properties
+                var realmName = realmHTML.split('<div class="realm-name">')[1].split('</div>')[0].trim();
+                var realmPop = realmHTML.split('<div class="realm-line">Population: ')[1].split('</div>')[0].trim();
+                
+                var realmPercentAlliance = realmHTML.split('<div class="progress-bar progress-bar-info" role="progressbar" style="width:')[1].split('%">')[0].trim();
+                var realmPercentHorde = realmHTML.split('<div class="progress-bar progress-bar-danger" role="progressbar" style="width:')[1].split('%">')[0].trim();
+
+                var realmServerTime = realmHTML.split('<div class="realm-line">Server Time: ')[1].split('</div>')[0].trim();
+                var realmUptime = realmHTML.split('<div class="realm-line">Uptime: ')[1].split('</div>')[0].trim();
+
+                //Find correct server
+                var foundRealm = null; 
+                
+                for (var serverStoredName in self.statuses) {
+                    var compareRealm = self.statuses[serverStoredName];
+                    if (!compareRealm.is_realm) continue; //Only compare with realms
+                    
+                    
+                    if (compareRealm.website_identifier.toLowerCase() == realmName.toLowerCase()) {
+                        foundRealm = compareRealm;
+                        break;
+                    }
+                }
+
+                //Ensure that we found a realm...
+                if (foundRealm === null) continue; //No realm to attach data to..
+                
+
+                //Assemble realm object 
+                var realmObj = {
+                    population: realmPop,
+                    uptime: realmUptime,
+                    server_time: realmServerTime,
+                    percentage_alliance: realmPercentAlliance,
+                    percentage_horde: realmPercentHorde
+                };
+
+                //Assign to realmdata...
+                self.realmdata.servers[foundRealm.app_identifier] = realmObj;
+
+            }
+            
+            
+            //Parsing was success..
+            self.realmdata.available = true; 
+
+        } catch (e) {
+            //Unable to parse data... 
+            console.log('Unable to parse web realm data ' + e);
+            self.realmdata.available = false; 
+            return;
+        }
+
+        //end Keeper.parseRealmStatusPage
     }
 
     /**
@@ -272,8 +379,16 @@ module.exports = function () {
             outStatuses[server] = {
                 'n': srv.name, //n = name
                 's': srv.status, //s = status 
-                't': srv['last_updated'] //t = last_updated (time)
+                't': srv['last_updated'], //t = last_updated (time)
             };
+
+            //Try to fetch population
+            var pop = false; 
+            if (self.realmdata.available && self.realmdata.servers[server] != undefined) {
+                var srvRealmData = self.realmdata.servers[server];
+                pop = srvRealmData.population;
+            }
+            if (srv.is_realm) outStatuses[server].p = pop; //p = pop (population)
 
         }
 

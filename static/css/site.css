@@ -28,7 +28,7 @@ table h3::first-letter {
     padding-bottom: 0px;
 }
 
-.queueText {
+.queueText, .populationText {
     color: #6f6f6f;
 }
     

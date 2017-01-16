@@ -21,10 +21,16 @@ var Localization = function() {
     this.modules_loaded = {};
 
     this.tools = {};
+
     this.tools.findAndReplace = function(subject, search, replacement) {
         var target = subject;
         return target.replace(new RegExp(search, 'g'), replacement);
     };  
+
+    this.tools.uppercase = function(string) {
+        return string.charAt(0).toUpperCase() + string.substring(1);
+    }
+
     this.tools.convertLanguage = function(lang) {
 
         var lang_lower = lang.toLowerCase();

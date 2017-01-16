@@ -17,6 +17,9 @@
         "seconds_ago": "sekundi ranije",
         "never": "nikad",
 
+        "players": "igrači",
+        "players_unavailable": "igrači unavailable",
+
         "queue": "red",
         "queues_unavailable_plural": "redovi nedostupni",
         "queues_unavailable_singular": "red nedostupan",

@@ -10,6 +10,16 @@ var path = require('path');
 var morgan = require('morgan');
 var FileStreamRotator = require('file-stream-rotator');
 
+//--- APPLICATION SETUP ---
+var http_port = 80;
+var https_port = 443;
+var devmode = false;
+
+if (process.argv[2] == 'dev') {
+    http_port = 8080;
+    https_port = 8081;
+    devmode = true;
+}
 
 //--- EXPRESS CORE SETUP ---
 //Hide software from potential attackers.
@@ -50,7 +60,7 @@ app.use(morgan(':req[client-realip] - :remote-user [:date[clf]] ":method :url HT
 
 //Keeper
 var Keeper = require('./modules/keeper');
-var keeper = new Keeper();
+var keeper = new Keeper(devmode);
 
 
 //Outcache 
@@ -61,21 +71,13 @@ keeper.setOutcache(outcache);
 
 //Start everything
 outcache.init();
-keeper.process();
+keeper.init();
 
 //AutoQueue setup 
 var autoqueue_password = fs.readFileSync('./password_autoqueue.txt').toString();
 
 
-var http_port = 80;
-var https_port = 443;
-var is_live = true;
 
-if (process.argv[2] == 'dev') {
-    http_port = 8080;
-    https_port = 8081;
-    is_live = false;
-}
 
 // START THE SERVER
 // =============================================================================

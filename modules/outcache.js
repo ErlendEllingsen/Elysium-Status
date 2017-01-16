@@ -51,7 +51,8 @@ module.exports = function(keeper) {
         var outcontent = {
             time: new Date(),
             servers: {},
-            autoqueue: keeper.autoqueue
+            autoqueue: keeper.autoqueue,
+            realmdata: keeper.realmdata
         };
 
         for (var serverName in keeper.statuses) {

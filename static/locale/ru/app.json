@@ -17,6 +17,9 @@
         "seconds_ago": "seconds ago",
         "never": "aldri",
 
+        "players": "igroki",
+        "players_unavailable": "igroki unavailable",
+
         "donate_text": "Please consider helping keep this site alive by",
         "donate_text_action": "donating",
         "donate": "donate"

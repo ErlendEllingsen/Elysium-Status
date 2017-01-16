@@ -1,23 +1,27 @@
 {
-"title": "app",
-"content": {
-"live": "en vivo",
-"service": "servicio",
-"status": "estado",
-"last_updated": "última actualización",
-"nav_overview": "visión general",
-"nav_realm_details": "detalles de los reinos",
-"status_online": "conectado",
-"status_offline": "desconectado",
-"status_unstable": "posiblemente inestable",
-"status_unknown": "desconocido",
-"seconds_ago": "hace segundos",
-"never": "nunca",
-"queue": "cola",
-"queues_unavailable_plural": "colas no disponibles",
-"queues_unavailable_singular": "cola no disponible",
-"donate_text": "Por favor considera ayudar a mantener este sitio",
-"donate_text_action": "donando",
-"donate": "donar"
-}
+    "title": "app",
+    "content": {
+        "live": "en vivo",
+        "service": "servicio",
+        "status": "estado",
+        "last_updated": "última actualización",
+        "nav_overview": "visión general",
+        "nav_realm_details": "detalles de los reinos",
+        "status_online": "conectado",
+        "status_offline": "desconectado",
+        "status_unstable": "posiblemente inestable",
+        "status_unknown": "desconocido",
+        "seconds_ago": "hace segundos",
+        "never": "nunca",
+
+        "players": "jugadores",
+        "players_unavailable": "jugadores no disponibles",
+
+        "queue": "cola",
+        "queues_unavailable_plural": "colas no disponibles",
+        "queues_unavailable_singular": "cola no disponible",
+        "donate_text": "Por favor considera ayudar a mantener este sitio",
+        "donate_text_action": "donando",
+        "donate": "donar"
+    }
 }

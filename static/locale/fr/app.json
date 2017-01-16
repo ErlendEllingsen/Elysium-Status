@@ -17,6 +17,9 @@
         "seconds_ago": "secondes passé",
         "never": "jamais",
 
+        "players": "joueurs",
+        "players_unavailable": "joueurs indisponible",
+
         "queue": "queue",
         "queues_unavailable_plural": "queue indisponible",
         "queues_unavailable_singular": "queue indisponible",

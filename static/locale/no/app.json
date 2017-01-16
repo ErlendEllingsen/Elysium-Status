@@ -17,6 +17,9 @@
         "seconds_ago": "sekunder siden",
         "never": "aldri",
 
+        "players": "spillere",
+        "players_unavailable": "spillere utilgjengelig",
+
         "queue": "kø",
         "queues_unavailable_plural": "køer utilgjengelig",
         "queues_unavailable_singular": "kø utilgjengelig",

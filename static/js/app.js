@@ -67,6 +67,7 @@ es.newData = function(data) {
         service.name = service.n; 
         service.status = service.s;
         service.last_updated = service.t;
+        if (service.p != undefined) service.population = service.p;
     }
     
     //COMPARE data
@@ -160,8 +161,14 @@ es.render = function() {
         $("tr[data-srv='" + name + "']").find('div.srvStatus').html(getStatusText(es.data.statuses[name].status));    
         $("tr[data-srv='" + name + "']").find('h3.srvLastUpdated').html(getLastUpdated(es.data.statuses[name].last_updated));   
 
-        //Queue data? 
-        
+        //Realm population
+        if (server.population != undefined) {
+            var popText = (server.population !== false ? lang.tools.uppercase(lang.processKey('players')) + ': ' + server.population : lang.tools.uppercase(lang.processKey('players_unavailable')));
+
+            $("tr[data-srv='" + name + "']").find('h4.populationText').html(popText); 
+        }
+
+        //-- QUEUE DATA --
         if (es.queueData != null && es.queueData != {} && es.queueData.servers != undefined) {
 
             var aqdataValid = ((Math.abs(new Date() - new Date(es.queueData.recieved_at)) / 1000) <= (3 * 60)); //Data must be max three minutes old.
