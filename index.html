@@ -5,11 +5,11 @@
 
         <meta name="Description" content="See if Elysium is online or offline. Elysium Status is monitoring the private WoW-server Elysium and its services (website, logon-server and wow-servers). Online monitoring live.">
         <meta name="Keywords" content="live, elysium, elysium-project, elysium-wow, nostralrius, nostalrius, elysium live, nostalrius live.">
-        
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- jQuery --> 
+        <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
         <!-- Boostrap from CDN -->
@@ -21,10 +21,10 @@
         <!-- Plugins -->
         <script src="static/plugins/localization-js/localization.js"></script>
 
-        <!-- SITE STYLE --> 
+        <!-- SITE STYLE -->
         <link rel="stylesheet" href="static/css/site.css">
 
-        <!-- SITE CODE  --> 
+        <!-- SITE CODE  -->
         <script src="static/js/app.js"></script>
         <script src="static/js/page.js"></script>
         <script src="static/js/misc.js"></script>
@@ -52,7 +52,9 @@
     </head>
     <body style="display: none;">
 
-        
+      <!-- preload image -->
+      <div class='preload' />
+
         <!-- Fixed navbar -->
         <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -67,7 +69,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                
+
                 <li class="active"><a href="#" onclick="window.location.reload();">Home</a></li>
 
                 <li><a href="https://elysium-project.org" target="_blank">Elysium</a></li>
@@ -75,14 +77,13 @@
                 <li><a href="https://www.reddit.com/r/ElysiumProject" target="_blank">Elysium Reddit</a></li>
                 <li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RP3UXQENTFMXA" target="_blank">Donate</a></li>
             </ul>
-           
+
             </div><!--/.nav-collapse -->
         </div>
         </nav>
 
         <div class="container-fluid">
-        <div class="jumbotron">
-            
+
             <div class="row">
 
                 <div class="col-md-1"></div>
@@ -90,16 +91,17 @@
                 <div class="col-md-7">
 
                     <!-- Site name and loading icon -->
-                    <div class="row" id="siteHeader">
-                        <div class="col-xs-8">
-                            <h1>Elysium Status <small>Live</small></h1>
+                    <div class="row site-header">
+                        <div class="col-xs-8 title-wrapper">
+                            <h1 class='title'>Elysium Status</h1>
+                            <h2 class='subtitle'>Live</h2>
                         </div>
                         <div class="col-xs-4" style="text-align: right;">
                             <h1 id="loadingImage"><i class="fa fa-cog fa-spin fa-1x fa-fw"></i></h1>
                         </div>
                     </div>
 
-                    <!-- Site nav  --> 
+                    <!-- Site nav  -->
                     <nav>
                         <ul class="nav nav-tabs">
                             <li role="presentation" class="active">
@@ -115,25 +117,25 @@
                                 </a>
                             </li>
                         </ul>
-                    
+
                     </nav>
-                    
+
 
                     <!-- PAGE CONTENT -->
                     <main id="pageContent">
-                        <!-- Replaced dynamically --> 
+                        <!-- Replaced dynamically -->
                     </main>
 
 
                     <!-- LINKS: Donate & github links -->
                     <p style="font-size: 15px;">
                         <span data-lang-key="donate_text">Please consider helping keep this site alive by</span> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RP3UXQENTFMXA" target="_blank" data-lang-key="donate_text_action">donating</a>.
-                        
+
                         <!-- Github buttons -->
                         <br><br>
                         <a class="github-button" href="https://github.com/erlendellingsen/Elysium-Status" data-icon="octicon-star" data-style="mega" data-count-href="/erlendellingsen/Elysium-Status/stargazers" data-count-api="/repos/erlendellingsen/Elysium-Status#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star erlendellingsen/Elysium-Status on GitHub">Star</a>
                         <a class="github-button" href="https://github.com/erlendellingsen" data-style="mega" aria-label="Follow @erlendellingsen on GitHub">Follow @erlendellingsen</a>
-                        
+
                     </p>
                 </div>
                 <div class="col-md-3">
@@ -145,17 +147,11 @@
 
             </div>
 
-            
-
-            
-
-        </div> <!-- /jumbotron -->
-
         </div> <!-- /container -->
 
-        
+
         <!-- Footer -->
-        <footer style="text-align: center;">
+        <footer class='custom-footer'>
             By <a href="http://github.com/ErlendEllingsen">Erlend Ellingsen</a><br>
             <a href="./terms">Terms of Service</a> - <a href="./privacy-policy">Privacy Policy</a>
         </footer>
