@@ -146,7 +146,7 @@ function notificationLine(name, status) {
      }
      return name + statusString + '\n';
 }
-  
+
 function playSound(soundObj) {
     document.getElementById(soundObj).play();
 }
@@ -157,15 +157,15 @@ es.render = function() {
     for (var name in es.data.statuses) {
         var server = es.data.statuses[name];
 
-        //Server status data 
-        $("tr[data-srv='" + name + "']").find('div.srvStatus').html(getStatusText(es.data.statuses[name].status));    
-        $("tr[data-srv='" + name + "']").find('h3.srvLastUpdated').html(getLastUpdated(es.data.statuses[name].last_updated));   
+        //Server status data
+        $("tr[data-srv='" + name + "']").find('span.srvStatus').html(getStatusText(es.data.statuses[name].status));
+        $("tr[data-srv='" + name + "']").find('td.srvLastUpdated').html(getLastUpdated(es.data.statuses[name].last_updated));
 
         //Realm population
         if (server.population != undefined) {
             var popText = (server.population !== false ? lang.tools.uppercase(lang.processKey('players')) + ': ' + server.population : lang.tools.uppercase(lang.processKey('players_unavailable')));
 
-            $("tr[data-srv='" + name + "']").find('h4.populationText').html(popText); 
+            $("tr[data-srv='" + name + "']").find('span.populationText').html(popText);
         }
 
         //-- QUEUE DATA --
@@ -175,10 +175,10 @@ es.render = function() {
 
             if (!aqdataValid) {
                 $("tr[data-srv='" + name + "']").find('.queueText').html('Queues unavailable');
-                continue; 
+                continue;
             }
 
-            //Find AutoQueue for server 
+            //Find AutoQueue for server
             var foundSrv = (es.queueData.servers[name] != undefined ? es.queueData.servers[name] : null);
 
             if (foundSrv == null) continue; //Did not found server.
@@ -193,40 +193,40 @@ es.render = function() {
             //end queueData is set
         }
 
-        //end 
+        //end
     }
 
     //end es.render
 }
-  
 
-//Other 
+
+//Other
 function getStatusText(status) {
 
-    if (status == 'unknown') return '' + 
-        '<h3 class="srvUnknown">' + 
-        '   <i class="fa fa-question-circle-o"></i>' + 
+    if (status == 'unknown') return '' +
+        '<span class="srvUnknown">' +
+        '   <i class="fa fa-question-circle-o"></i>' +
         '    ' + upperFirst(lang.processKey('status_unknown'))+
-        '</h3>';
+        '</span>';
 
-    if (status == 'unstable') return '' + 
-        '<h3 class="srvUnstable">' + 
-        '   <i class="fa fa-exclamation-circle"></i>' + 
-        '    ' + upperFirst(lang.processKey('status_unstable'))+ 
-        '</h3>';
+    if (status == 'unstable') return '' +
+        '<span class="srvUnstable">' +
+        '   <i class="fa fa-exclamation-circle"></i>' +
+        '    ' + upperFirst(lang.processKey('status_unstable'))+
+        '</span>';
 
-    if (status) return '' + 
-        '<h3 class="srvOnline">' + 
-        '   <i class="fa fa-check-circle"></i>' + 
+    if (status) return '' +
+        '<span class="srvOnline">' +
+        '   <i class="fa fa-check-circle"></i>' +
         '    ' + upperFirst(lang.processKey('status_online'))+
-        '</h3>';
+        '</span>';
 
     //Not true
-    return '' + 
-        '<h3 class="srvOffline">' + 
-        '   <i class="fa fa-times-circle"></i>' + 
+    return '' +
+        '<span class="srvOffline">' +
+        '   <i class="fa fa-times-circle"></i>' +
         '    ' + upperFirst(lang.processKey('status_offline'))+
-        '</h3>';
+        '</span>';
 
 }
 
@@ -237,7 +237,7 @@ function getLastUpdated(lastUpdated) {
 
 
     // Do your operations
-    
+
     var endDate   = new Date(es.data.time);
     var seconds = Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
 

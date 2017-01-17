@@ -1,14 +1,10 @@
-.uppercase::first-letter {
-    text-transform: uppercase;
-}
-
-table h3::first-letter {
+table th::first-letter {
     text-transform: uppercase;
 }
 
 .srvInfrastructure {
-    color: #715284;
-    text-shadow: 1px 1px 1px #000;
+    color: #5d6da9;
+    font-weight: bold;
 }
 
 .srvOnline {
@@ -30,8 +26,9 @@ table h3::first-letter {
 
 .queueText, .populationText {
     color: #6f6f6f;
+    display: block;
 }
-    
+
 .twitter-timeline {
     margin-top: 20px !important;
 }
@@ -83,9 +80,11 @@ table h3::first-letter {
 */
 
 table#services-status-table {
+    background-color: #fff;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    font-size: 12pt;
 }
 
 table#services-status-table tr:first-child th {
@@ -93,7 +92,7 @@ table#services-status-table tr:first-child th {
 }
 
 /*
- --- PAGE: SERVER-DETAILS 
+ --- PAGE: SERVER-DETAILS
 */
 
 div#pageServerDetails {
@@ -106,4 +105,14 @@ div#pageServerDetails {
     border-bottom: 1px solid #ddd;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+
+/*
+ ---  RESPONSIVE STYLES  ---
+ */
+@media only screen and (max-width: 620px) {
+    table#services-status-table {
+        font-size: 10pt;
+    }
 }
