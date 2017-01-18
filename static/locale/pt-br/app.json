@@ -1,0 +1,23 @@
+{
+    "title": "app",
+    "content": {
+        "live": "Ao Vivo",
+        "service": "serviço",
+        "status": "estado",
+        "last_updated": "última atualização",
+        "nav_overview": "visão geral",
+        "nav_realm_details": "detalhes dos realms",
+        "status_online": "conectado",
+        "status_offline": "desconectado",
+        "status_unstable": "possivelmente instável",
+        "status_unknown": "desconhecido",
+        "seconds_ago": "segundos atrás",
+        "never": "nunca",
+        "queue": "fila",
+        "queues_unavailable_plural": "filas indisponíveis",
+        "queues_unavailable_singular": "fila indisponível",
+        "donate_text": "Por favor considere nos ajudar a manter o site vivo",
+        "donate_text_action": "doando",
+        "donate": "doar"
+    }
+}

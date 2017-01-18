@@ -34,6 +34,11 @@ Want to help with translating? [Read here](https://forum.elysium-project.org/top
 * **Azshrinn** - French
 * **rsKliPPy** - Serbian
 * **Dranthos** - Spanish
+* **[gabryatfendor](https://github.com/gabryatfendor)** - Italian
+* **njamnjam** - German 
+* **Guffeluffe** - Danish
+* **Demoniaco** - Brazilian Portuguese
+* **freeone** - Bulgarian
 
 
 ##📖License

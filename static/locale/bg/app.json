@@ -1,0 +1,29 @@
+{
+    "title": "програма",
+    "content": {
+        "live": "на живо",
+        "service": "услуга",
+        "status": "състояние",
+        "last_updated": "последна промяна",
+       
+        "nav_overview": "преглед",
+        "nav_realm_details": "сървърни детайли",
+ 
+        "status_online": "работи",
+        "status_offline": "не работи",
+        "status_unstable": "може да е нестабилен",
+        "status_unknown": "неизвестно",
+ 
+        "seconds_ago": "секунди преди",
+        "never": "никога",
+ 
+        "queue": "опашка",
+        "queues_unavailable_plural": "опашките са неизвестни",
+        "queues_unavailable_singular": "опашката е неизвестна",
+ 
+        "donate_text": "Моля обмислете да помогнете на сайта чрез",
+        "donate_text_action": "дарение",
+        "donate": "дари"
+ 
+    }
+}

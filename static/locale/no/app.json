@@ -9,8 +9,8 @@
         "nav_overview": "oversikt",
         "nav_realm_details": "server-detaljer",
 
-        "status_online": "online",
-        "status_offline": "offline",
+        "status_online": "tilgjengelig",
+        "status_offline": "utilgjengelig",
         "status_unstable": "kan være ustabil",
         "status_unknown": "ukjent",
 

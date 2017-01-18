@@ -1,0 +1,23 @@
+{
+    "title": "app",
+    "content": {
+        "live": "live",
+        "service": "service",
+        "status": "status",
+        "last_updated": "sidst opdateret",
+        "nav_overview": "oversigt",
+        "nav_realm_details": "realm detaljer",
+        "status_online": "online",
+        "status_offline": "offline",
+        "status_unstable": "muligvis ustabil",
+        "status_unknown": "ukendt",
+        "seconds_ago": "sekunder siden",
+        "never": "aldrig",
+        "queue": "køen",
+        "queues_unavailable_plural": "køerne er utilgængelige",
+        "queues_unavailable_singular": "køen er utilgængelig",
+        "donate_text": "Hjælp venligst med at holde denne side i live, ved at",
+        "donate_text_action": "donere",
+        "donate": "donér"
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "title": "app",
+    "content": {
+        "live": "live",
+        "service": "Dienst",
+        "status": "Status",
+        "last_updated": "Letzte Aktualisierung",
+        "nav_overview": "Übersicht",
+        "nav_realm_details": "Realm Details",
+        "status_online": "online",
+        "status_offline": "offline",
+        "status_unstable": "Möglicherweise instabil",
+        "status_unknown": "Unbekannt",
+        "seconds_ago": "Sekunden vergangen",
+        "never": "Nie",
+        "queue": "Warteschlange",
+        "queues_unavailable_plural": "Warteschlangen nicht verfügbar",
+        "queues_unavailable_singular": "Warteschlange nicht verfügbar",
+        "donate_text": "Du kannst helfen diese Seite am Leben zu erhalten. Am besten durch eine",
+        "donate_text_action": "Spende",
+        "donate": "Spenden"
+    }
+}

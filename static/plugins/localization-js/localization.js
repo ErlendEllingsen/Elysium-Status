@@ -37,15 +37,25 @@ var Localization = function() {
 
         switch (lang_lower) {
 
-            case 'no-nb': case 'no-nn': case 'nb': case 'nn': //Norwegian
+            case 'da-dk':  //Danish
+                return 'dk';
+
+            case 'no-nb': case 'no-nn':
+            case 'nb-no': case 'nn-no':
+            case 'nb': case 'nn': //Norwegian
                 return 'no';
             case 'fr-fr': case 'fr-be': case 'fr-ch': //French
                 return 'fr';
             case 'en-gb': case 'en-us': //English
+            case 'gb-en': case 'us-en':
                 return 'en';
             case 'es-ni': case 'es-sv': case 'es-py': case 'es-cl': case 'es-ar': case 'es-co': case 'es-do': //Spanish
             case 'es-cr': case 'es-mx': //Spanish
                 return 'es';
+            
+            case 'bg-bg': //Bulgarian
+                return 'bg';
+
             default: 
                 return lang;
             
