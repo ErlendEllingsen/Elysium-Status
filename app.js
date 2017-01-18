@@ -146,8 +146,8 @@ router.post('/auto-queue-update', function(req, res){
     console.log("auto-queue-update triggered at " + new Date().toString());
 
     //Update cache!
-    self.outcache.render('fetch-queue');
-    self.outcache.render('fetch-stats');
+    outcache.render('fetch-queue');
+    outcache.render('fetch-stats');
 
 });
 
