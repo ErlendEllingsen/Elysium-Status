@@ -42,11 +42,11 @@ table h3::first-letter {
 
 /* Pull header image faster */
 .preload {
-    background: url('../img/header.png') no-repeat -9999px -9999px;
+    background: url('../../resources/header') no-repeat -9999px -9999px;
 }
 
 .site-header {
-    background: url('../img/header.png') center no-repeat;
+    background: url('../../resources/header') center no-repeat;
     min-height: 216px;
     border-radius: 3px 3px 5px 5px;
     margin: 0px;

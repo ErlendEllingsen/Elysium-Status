@@ -21,6 +21,9 @@ if (process.argv[2] == 'dev') {
     devmode = true;
 }
 
+//--- LOAD CONFIG ---
+var app_config = JSON.parse(fs.readFileSync('app_config.json'));
+
 //--- EXPRESS CORE SETUP ---
 //Hide software from potential attackers.
 app.disable('x-powered-by');
@@ -113,6 +116,13 @@ router.get('/fetch', function(req, res){
 
 router.get('/fetch-queue', function(req, res){
     res.json(outcache.get('fetch-queue'));
+});
+
+router.get('/resources/header', function(req, res){
+
+    var header_img = Math.floor(Math.random() * app_config.site_header_images.length) + 0;  
+    res.redirect(301, app_config.site_header_images[header_img]);
+    return;
 });
 
 router.post('/auto-queue-update', function(req, res){
