@@ -174,7 +174,7 @@ es.render = function() {
             var aqdataValid = ((Math.abs(new Date() - new Date(es.queueData.recieved_at)) / 1000) <= (3 * 60)); //Data must be max three minutes old.
 
             if (!aqdataValid) {
-                $("tr[data-srv='" + name + "']").find('.queueText').html('Queues unavailable');
+                $("tr[data-srv='" + name + "']").find('.queueText').html(upperFirst(lang.processKey('queues_unavailable_plural')));
                 continue; 
             }
 
@@ -187,7 +187,7 @@ es.render = function() {
             var timingOK = ((Math.abs(new Date(es.queueData.export_time) - new Date(foundSrv.last_updated)) / 1000) < (15*60)); //10 minute data freshness requirement
             if (!timingOK) foundSrv.queueAvailable = false;
 
-            var queueText = (foundSrv.queueAvailable ? "Queue: " + foundSrv.queue : 'Queue unavailable');
+            var queueText = (foundSrv.queueAvailable ? upperFirst(lang.processKey('queue')) + ": " + foundSrv.queue : upperFirst(lang.processKey('queues_unavailable_singular')));
             $("tr[data-srv='" + name + "']").find('.queueText').html(queueText);
 
             //end queueData is set
