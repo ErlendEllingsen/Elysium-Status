@@ -22,7 +22,7 @@ if (process.argv[2] == 'dev') {
 }
 
 //--- LOAD CONFIG ---
-var app_config = JSON.parse(fs.readFileSync('app_config.json'));
+var site_config = JSON.parse(fs.readFileSync('site_config.json'));
 
 //--- EXPRESS CORE SETUP ---
 //Hide software from potential attackers.
@@ -117,9 +117,8 @@ router.get('/fetch-queue', function(req, res){
 });
 
 router.get('/resources/header', function(req, res){
-
-    var header_img = Math.floor(Math.random() * app_config.site_header_images.length) + 0;  
-    res.redirect(301, app_config.site_header_images[header_img]);
+    var header_img = Math.floor(Math.random() * site_config.site_header_images.length) + 0;  
+    res.redirect(301, '../../static/img/header/' + site_config.site_header_images[header_img] + '.png');
     return;
 });
 
