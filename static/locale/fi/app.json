@@ -1,0 +1,32 @@
+{
+    "title": "app",
+    "content": {
+        "live": "live",
+        "service": "palvelu",
+        "status": "tila",
+        "last_updated": "päivitetty viimeksi",
+        
+        "nav_overview": "yleiskatsaus",
+        "nav_realm_details": "palvelimen yksityiskohdat",
+
+        "status_online": "online",
+        "status_offline": "offline",
+        "status_unstable": "mahdollisesti epävakaa",
+        "status_unknown": "tuntematon",
+
+        "seconds_ago": "sekuntia sitten",
+        "never": "ei koskaan",
+
+        "players": "pelaajia",
+        "players_unavailable": "pelaajadataa ei saatavilla",
+
+        "queue": "jono",
+        "queues_unavailable_plural": "jonoa ei saatavilla",
+        "queues_unavailable_singular": "jono ei saatavilla",
+
+        "donate_text": "Auta pitämään tämä sivusto toiminnassa",
+        "donate_text_action": "lahjoittamalla",
+        "donate": "lahjoita"
+
+    }
+}
