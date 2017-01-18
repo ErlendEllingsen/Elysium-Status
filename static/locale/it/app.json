@@ -1,0 +1,32 @@
+{
+    "title": "app",
+    "content": {
+        "live": "dal vivo",
+        "service": "servizio",
+        "status": "stato",
+        "last_updated": "ultimo aggiornamento",
+        
+        "nav_overview": "panoramica",
+        "nav_realm_details": "dettagli reame",
+
+        "status_online": "connesso",
+        "status_offline": "disconnesso",
+        "status_unstable": "potrebbe essere instabile",
+        "status_unknown": "sconosciuto",
+
+        "seconds_ago": "secondi fa",
+        "never": "mai",
+
+        "players": "giocatori",
+        "players_unavailable": "giocatori non disponibili",
+
+        "queue": "coda",
+        "queues_unavailable_plural": "code non disponibili",
+        "queues_unavailable_singular": "coda non disponibile",
+
+        "donate_text": "Perfavore considera di aiutare per mantenere il sito ",
+        "donate_text_action": "donando",
+        "donate": "dona"
+
+    }
+}
