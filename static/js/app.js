@@ -286,6 +286,10 @@ $(document).ready(function(){
             page.setPage('overview'); 
             es.postLoadTranslate();
 
+            //Google Adsense
+            ga('set', 'lang_loaded', lang.locale_name); 
+            ga('send', 'pageview');
+
         });
 
     });
