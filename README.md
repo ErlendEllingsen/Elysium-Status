@@ -39,6 +39,7 @@ Want to help with translating? [Read here](https://forum.elysium-project.org/top
 * **Guffeluffe** - Danish
 * **Demoniaco** - Brazilian Portuguese
 * **freeone** - Bulgarian
+* **[jgaurilo](https://github.com/jgaurilo)** - Finnish
 
 
 ##📖License
