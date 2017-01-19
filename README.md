@@ -27,6 +27,7 @@ Got any ideas? Contribute by creating a creating a fork and then a pull request.
 ###💻Contributors
 * **[rsKliPPy](https://github.com/rsKliPPy)**
 * **[emmoistner](https://github.com/emmoistner)**
+* **[henhouse](https://github.com/henhouse)**
 
 ###🌎Translators
 Want to help with translating? [Read here](https://forum.elysium-project.org/topic/32573-seeking-players-of-all-nationalities-non-english/)
