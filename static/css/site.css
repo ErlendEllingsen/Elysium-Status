@@ -1,14 +1,11 @@
-.uppercase::first-letter {
-    text-transform: uppercase;
-}
-
-table h3::first-letter {
+table th::first-letter {
     text-transform: uppercase;
 }
 
 .srvInfrastructure {
-    color: #715284;
-    text-shadow: 1px 1px 1px #000;
+    color: #5d6da9;
+    font-weight: bold;
+    font-size: 13pt;
 }
 
 .srvOnline {
@@ -19,17 +16,20 @@ table h3::first-letter {
     color: red;
 }
 
-.srvUnstable {
+.srvUnstable, .srvUnknown {
     color: #f98f65;
 }
 
 .serverTitle {
     margin-bottom: 0px;
     padding-bottom: 0px;
+    font-size: 13pt;
+    font-weight: bold;
 }
 
 .queueText, .populationText {
     color: #6f6f6f;
+    display: block;
 }
 
 .twitter-timeline {
@@ -104,6 +104,7 @@ table h3::first-letter {
 */
 
 table#services-status-table {
+    background-color: #fff;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -162,4 +163,17 @@ div#pageServerDetails {
     text-align: center;
     margin-top: 25px;
     margin-bottom: 15px;
+}
+
+
+/*
+ ---  RESPONSIVE STYLES  ---
+ */
+@media only screen and (max-width: 620px) {
+    td.srvInfrastructure, span.serverTitle, span.srvOnline, td.srvLastUpdated {
+        font-size: 10pt;
+    }
+    span.queueText, span.populationText {
+        font-size: 8pt;
+    }
 }

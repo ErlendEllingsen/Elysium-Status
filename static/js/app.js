@@ -13,7 +13,7 @@ var ElysiumStatus = {
     /// Notifications ///
     isFirstFetch: true,
     lastServerStatuses: [],
-    notificationsAllowed: false    
+    notificationsAllowed: false
 };
 
 var es = ElysiumStatus;
@@ -57,19 +57,19 @@ es.fetchQueueData = function() {
 
 es.newData = function(data) {
     es.data = data;
-    
-    //Convert from minified to full 
+
+    //Convert from minified to full
     for (var serviceName in es.data.statuses) {
-        
+
         var service = es.data.statuses[serviceName];
-        
-        //Set new 
-        service.name = service.n; 
+
+        //Set new
+        service.name = service.n;
         service.status = service.s;
         service.last_updated = service.t;
         if (service.p != undefined) service.population = service.p;
     }
-    
+
     //COMPARE data
     var changedStatuses = [];
     for(var name in data.statuses) {
@@ -146,7 +146,7 @@ function notificationLine(name, status) {
      }
      return name + statusString + '\n';
 }
-  
+
 function playSound(soundObj) {
     document.getElementById(soundObj).play();
 }
@@ -157,15 +157,15 @@ es.render = function() {
     for (var name in es.data.statuses) {
         var server = es.data.statuses[name];
 
-        //Server status data 
-        $("tr[data-srv='" + name + "']").find('div.srvStatus').html(getStatusText(es.data.statuses[name].status));    
-        $("tr[data-srv='" + name + "']").find('h3.srvLastUpdated').html(getLastUpdated(es.data.statuses[name].last_updated));   
+        //Server status data
+        $("tr[data-srv='" + name + "']").find('td.srvStatus').html(getStatusText(es.data.statuses[name].status));
+        $("tr[data-srv='" + name + "']").find('td.srvLastUpdated').html(getLastUpdated(es.data.statuses[name].last_updated));
 
         //Realm population
         if (server.population != undefined) {
             var popText = (server.population !== false ? lang.tools.uppercase(lang.processKey('players')) + ': ' + server.population : lang.tools.uppercase(lang.processKey('players_unavailable')));
 
-            $("tr[data-srv='" + name + "']").find('h4.populationText').html(popText); 
+            $("tr[data-srv='" + name + "']").find('span.populationText').html(popText);
         }
 
         //-- QUEUE DATA --
@@ -175,10 +175,10 @@ es.render = function() {
 
             if (!aqdataValid) {
                 $("tr[data-srv='" + name + "']").find('.queueText').html(upperFirst(lang.processKey('queues_unavailable_plural')));
-                continue; 
+                continue;
             }
 
-            //Find AutoQueue for server 
+            //Find AutoQueue for server
             var foundSrv = (es.queueData.servers[name] != undefined ? es.queueData.servers[name] : null);
 
             if (foundSrv == null) continue; //Did not found server.
@@ -193,40 +193,40 @@ es.render = function() {
             //end queueData is set
         }
 
-        //end 
+        //end
     }
 
     //end es.render
 }
-  
 
-//Other 
+
+//Other
 function getStatusText(status) {
 
-    if (status == 'unknown') return '' + 
-        '<h3 class="srvUnknown">' + 
-        '   <i class="fa fa-question-circle-o"></i>' + 
+    if (status == 'unknown') return '' +
+        '<span class="srvUnknown">' +
+        '   <i class="fa fa-question-circle"></i>' +
         '    ' + upperFirst(lang.processKey('status_unknown'))+
-        '</h3>';
+        '</span>';
 
-    if (status == 'unstable') return '' + 
-        '<h3 class="srvUnstable">' + 
-        '   <i class="fa fa-exclamation-circle"></i>' + 
-        '    ' + upperFirst(lang.processKey('status_unstable'))+ 
-        '</h3>';
+    if (status == 'unstable') return '' +
+        '<span class="srvUnstable">' +
+        '   <i class="fa fa-exclamation-circle"></i>' +
+        '    ' + upperFirst(lang.processKey('status_unstable'))+
+        '</span>';
 
-    if (status) return '' + 
-        '<h3 class="srvOnline">' + 
-        '   <i class="fa fa-check-circle"></i>' + 
+    if (status) return '' +
+        '<span class="srvOnline">' +
+        '   <i class="fa fa-check-circle"></i>' +
         '    ' + upperFirst(lang.processKey('status_online'))+
-        '</h3>';
+        '</span>';
 
     //Not true
-    return '' + 
-        '<h3 class="srvOffline">' + 
-        '   <i class="fa fa-times-circle"></i>' + 
+    return '' +
+        '<span class="srvOffline">' +
+        '   <i class="fa fa-times-circle"></i>' +
         '    ' + upperFirst(lang.processKey('status_offline'))+
-        '</h3>';
+        '</span>';
 
 }
 
@@ -237,7 +237,7 @@ function getLastUpdated(lastUpdated) {
 
 
     // Do your operations
-    
+
     var endDate   = new Date(es.data.time);
     var seconds = Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
 
@@ -252,42 +252,42 @@ function getLastUpdated(lastUpdated) {
 
 $(document).ready(function(){
 
-    
 
-    
 
-    //Language 
+
+
+    //Language
     lang = new Localization();
-    
+
     es.language.browser_lang = (navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage));
 
     es.language.browser_lang = lang.tools.convertLanguage(es.language.browser_lang)
 
     console.log('user lang is ' + es.language.browser_lang);
 
-    
+
     lang.initialize('./static/locale/', function(){
 
         //Set locale to browser or fallback..
         lang.setLocale(lang.supportsLocale(es.language.browser_lang) ? es.language.browser_lang : 'en');
 
-        //Language loaded 
+        //Language loaded
         lang.loadModule('app.json', function(){
-            
+
             //LOADED!
 
-            //Data 
+            //Data
             es.checkNotifications();
             es.fetchData();
             es.fetchQueueData();
 
-            //Set page 
+            //Set page
             $('body').css('display', 'block');
-            page.setPage('overview'); 
+            page.setPage('overview');
             es.postLoadTranslate();
 
             //Google Adsense
-            ga('set', 'lang_loaded', lang.locale_name); 
+            ga('set', 'lang_loaded', lang.locale_name);
             ga('send', 'pageview');
 
         });
@@ -302,7 +302,7 @@ $(document).ready(function(){
 
 es.postLoadTranslate = function() {
 
-    //Nav btn 
+    //Nav btn
     $('span[data-lang-key="nav_overview"]').html(upperFirst(lang.processKey('nav_overview')));
     $('span[data-lang-key="nav_realm_details"]').html(upperFirst(lang.processKey('nav_realm_details')));
 
