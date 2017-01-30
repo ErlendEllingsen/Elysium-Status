@@ -3,6 +3,9 @@ const colors = require('colors');
 const request = require('request');
 const portscanner = require('portscanner');
 
+const cheerio = require('cheerio');
+const moment = require('moment');
+
 module.exports = function (devmode) {
     var self = this;
 
@@ -57,7 +60,7 @@ module.exports = function (devmode) {
         "zethkur_pvp": {
             "is_realm": true,
             "name": "Zeth'Kur PVP",
-            "website_identifier": "Zeth&#039;Kur",
+            "website_identifier": "Zeth'Kur",
             "app_identifier": "zethkur_pvp",
             "status": false,
             "last_updated": null,
@@ -300,58 +303,47 @@ module.exports = function (devmode) {
     this.parseRealmStatusPage = function(body) {
 
         try {
-
-            var realms = body.split('<div class="realm">');
-            realms.splice(0,1);
-
-            
-
-            for (var i = 0; i < realms.length; i++) {
-                var realmHTML = realms[i];
-
-                //Fetch properties
-                var realmName = realmHTML.split('<div class="realm-name">')[1].split('</div>')[0].trim();
-                var realmPop = realmHTML.split('<div class="realm-line">Population: ')[1].split('</div>')[0].trim();
+            //load the body to the cheerio dom
+            let $ = cheerio.load(body);
+            let realms = $('.realm').each( (i, val) => {
+                let realmName = $(val).find('.realm-name').text().trim();                
                 
-                var realmPercentAlliance = realmHTML.split('<div class="progress-bar progress-bar-info" role="progressbar" style="width:')[1].split('%">')[0].trim();
-                var realmPercentHorde = realmHTML.split('<div class="progress-bar progress-bar-danger" role="progressbar" style="width:')[1].split('%">')[0].trim();
 
-                var realmServerTime = realmHTML.split('<div class="realm-line">Server Time: ')[1].split('</div>')[0].trim();
-                var realmUptime = realmHTML.split('<div class="realm-line">Uptime: ')[1].split('</div>')[0].trim();
+                if (realmName) {
+                    let realmPop = $(val).find('div.realm-body > div:nth-child(2)').text().trim().replace('Population: ', '');            
+                    let realmPercentAlliance = $(val).find('div.realm-body > div.progress > div.progress-bar.progress-bar-info').text().trim().replace('%', '');
+                    let realmPercentHorde = $(val).find('div.realm-body > div.progress > div.progress-bar.progress-bar-danger').text().trim().replace('%', '');            
+                    let realmServerTime = $(val).find('div.realm-body > div:nth-child(4)').text().trim();
+                    let realmUptime = $(val).find('div.realm-body > div:nth-child(5)').text().trim().replace('Uptime: ','');        
 
-                //Find correct server
-                var foundRealm = null; 
-                
-                for (var serverStoredName in self.statuses) {
-                    var compareRealm = self.statuses[serverStoredName];
-                    if (!compareRealm.is_realm) continue; //Only compare with realms
+                    let objarr = {}
+                    realmUptime.match(/([0-9]+\s[A-Za-z]+)/g).map( time => objarr[time.split(' ')[1]] = time.split(' ')[0])
                     
-                    
-                    if (compareRealm.website_identifier.toLowerCase() == realmName.toLowerCase()) {
-                        foundRealm = compareRealm;
-                        break;
+                    // Now we got a momentjs object of the time when the server went online, we now can do all 
+                    // the fancy datediff stuff we want to do - for future statistics etc
+                    let realmWentOnlineTime = moment().subtract(objarr);
+
+                    //complex but temp one. converts the statues object to an array to filter it for a realmname
+                    let search = Object.keys(self.statuses).map(key => { return self.statuses[key]; })
+                                .filter(e => e['website_identifier'] === realmName);
+                                        
+                    // move on if we have a match and if that match is a realm
+                    if (search.length > 0 && search[0].is_realm) {
+                        // just to be able to work a little cleaner
+                        let realmObj = search[0];
+                        
+                        // Assign to realmdata...
+                        self.realmdata.servers[realmObj.app_identifier] = {
+                            population: realmPop,
+                            uptime: realmUptime,
+                            server_time: realmServerTime,
+                            percentage_alliance: realmPercentAlliance,
+                            percentage_horde: realmPercentHorde
+                        };
                     }
-                }
-
-                //Ensure that we found a realm...
-                if (foundRealm === null) continue; //No realm to attach data to..
-                
-
-                //Assemble realm object 
-                var realmObj = {
-                    population: realmPop,
-                    uptime: realmUptime,
-                    server_time: realmServerTime,
-                    percentage_alliance: realmPercentAlliance,
-                    percentage_horde: realmPercentHorde
-                };
-
-                //Assign to realmdata...
-                self.realmdata.servers[foundRealm.app_identifier] = realmObj;
-
-            }
-            
-            
+                }        
+            });
+                                    
             //Parsing was success..
             self.realmdata.available = true; 
 
