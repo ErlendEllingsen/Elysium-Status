@@ -11,8 +11,8 @@ var morgan = require('morgan');
 var FileStreamRotator = require('file-stream-rotator');
 
 //--- APPLICATION SETUP ---
-var http_port = 8080;
-var https_port = 8081;
+var http_port = 80;
+var https_port = 443;
 var devmode = false;
 
 if (process.argv[2] == 'dev') {
